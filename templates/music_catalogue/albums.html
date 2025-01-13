@@ -1,0 +1,28 @@
+{% extends "/var/www/django-portfolio/musicsite/templates/music_catalogue/base.html" %}
+
+{% block title %} {{page_title}} | Music Collecotrs Catalogue {% endblock %}
+
+{% block content %}
+    <h1>Albums</h1>
+    <div id="album-container">
+        <ul>
+            {% for album in album_list %}
+                <li class="album-item">
+                    <img class="img-placeholder" src="" title="Album cover placeholder.">
+                    <a href="{{album.id}}/">{{ album.name}}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {% if user.is_authenticated %}
+    <!-- Hi {{ user.username }}! -->
+    <div class="button">
+        <button class="button">
+            <a class="add-album" href="{% url 'add-album' %}">Add Album</a>
+        </button>
+    </div>
+    {% else %}
+    
+    {% endif %}
+{% endblock %}
