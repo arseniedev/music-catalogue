@@ -1,0 +1,9 @@
+[00:00:06.368] Server  LOG      ✓ Ready in 4.4s
+[00:01:18.444] Server  LOG      ○ Compiling / ...
+[00:01:26.825] Server  WARN    Image with src "/avatar.svg" is using quality "100" which is not configured in images.qualities [75]. Please update your config to [100, 75].
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities
+[00:01:27.971] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:28.218] Browser WARN    Image with src "/avatar.svg" is using quality "100" which is not configured in images.qualities [75]. Please update your config to [100, 75].
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities
+[00:01:28.218] Browser WARN    Image with src "/avatar.svg" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
