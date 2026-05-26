@@ -33,7 +33,7 @@
 
 ---
 
-## 📸 Snapshots
+## Snapshots
 
 <table>
   <tr>
@@ -58,7 +58,7 @@
 
 ---
 
-## 🗂️ Project Structure
+## Project Structure
 
 ```
 music-catalogue/
@@ -82,7 +82,7 @@ music-catalogue/
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -177,7 +177,7 @@ Admin panel is at **[http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin)**
 > #### **BCDE215 - Web Development**
 >
 > This portfolio contains original work completed as part of my BCDE215 - Web Development course at Ara Institute of Canterbury. I do not condone plagiarism or academic misconduct in any form. This project is for academic purposes only and is not intended to be copied or used without proper authorisation.
-> The university has a <span style="color:red;">**STRICT**</span> policy on academic misconduct, and I fully support this policy. Any attempt to plagiarize, copy, or use this work as your own will result in serious consequences. Please respect academic integrity and do not attempt to pass off this work as your own.
+> The university has a <span style="color:brown;">**STRICT**</span> policy on academic misconduct, and I fully support this policy. Any attempt to plagiarize, copy, or use this work as your own will result in serious consequences. Please respect academic integrity and do not attempt to pass off this work as your own.
 >
 > #### **Disclaimer**
 >
@@ -185,4 +185,4 @@ Admin panel is at **[http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin)**
 
 ---
 
-`Created by Arsenie — 2024`
+Created by Arsenie — 2024
