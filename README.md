@@ -66,6 +66,20 @@
 ## Project Structure
 
 <!-- START_STRUCTURE -->
+.
+├── README.md
+├── music_catalogue
+│   ├── manage.py
+│   └── music_catalogue
+│       ├── __init__.py
+│       ├── asgi.py
+│       ├── settings.py
+│       ├── urls.py
+│       └── wsgi.py
+├── requirements.txt
+└── structure.txt
+
+3 directories, 9 files
 <!-- END_STRUCTURE -->
 
 ---
