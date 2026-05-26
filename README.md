@@ -68,6 +68,27 @@
 ```text
 .
 ├── README.md
+├── app
+│   ├── static
+│   │   ├── style.css
+│   │   └── stylesheet.css
+│   └── templates
+│       ├── music_catalogue
+│       └── registration
+├── assets
+│   ├── 5f5f966b826835d64538211b9250f51b.jpg
+│   ├── QhrkWM.jpg
+│   ├── d91292a92f297404e68b74b09410b26e.jpg
+│   ├── head-wallpaper.png
+│   ├── home-logo.png
+│   ├── pngtree-photos-and-vintage-records-on-a-table-picture-image_2468693.jpg
+│   └── wall.jpg
+├── docs
+│   └── snapshots
+│       ├── admin-signin.png
+│       ├── album-home.png
+│       ├── artist-home.png
+│       └── home.png
 ├── music_catalogue
 │   ├── manage.py
 │   └── music_catalogue
@@ -79,7 +100,7 @@
 ├── requirements.txt
 └── structure.txt
 
-3 directories, 9 files
+11 directories, 22 files
 ```
 <!-- END_STRUCTURE -->
 ---
