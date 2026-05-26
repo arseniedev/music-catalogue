@@ -3,6 +3,7 @@ name: Update README Structure
 on:
   push:
     branches:
+      - dev
       - main
 
 jobs:

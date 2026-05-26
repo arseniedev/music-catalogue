@@ -65,37 +65,8 @@
 
 ## Project Structure
 
-```
-music-catalogue/
-├── app/                        # Main Django app
-│   ├── __pycache__/        
-│   ├── migrations/             # Database migrations
-│   ├── static/                 # CSS, JS, images
-│   ├── templates/              # HTML templates
-│   │    ├── music_catalogue/     
-│   │    └── registration/     
-│   ├── __init__.py         
-│   ├── admin.py                # Django project config
-│   ├── apps.py                 # 
-│   ├── forms.py                # 
-│   ├── models.py               # Album & Song data models
-│   ├── tests.py                # 
-│   ├── urls.py                 # App URL routing
-│   └── views.py                # Page logic and CRUD handlers
-├── music_catalogue/            # Django project config
-│   ├── __pycache__/        
-│   ├── __init__.py         
-│   ├── asgi.py
-│   ├── settings.py
-│   ├── urls.py
-│   └── wsgi.py
-├── docs/
-│   └── snapshots/          # README screenshots
-├── assets/
-│   └── ... /               # Website's media assets
-├── requirements.txt
-└── manage.py
-```
+<!-- START_STRUCTURE -->
+<!-- END_STRUCTURE -->
 
 ---
 
