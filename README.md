@@ -69,38 +69,72 @@
 .
 ├── README.md
 ├── app
-│   ├── static
-│   │   ├── style.css
-│   │   └── stylesheet.css
-│   └── templates
-│       ├── music_catalogue
-│       └── registration
-├── assets
-│   ├── 5f5f966b826835d64538211b9250f51b.jpg
-│   ├── QhrkWM.jpg
-│   ├── d91292a92f297404e68b74b09410b26e.jpg
-│   ├── head-wallpaper.png
-│   ├── home-logo.png
-│   ├── pngtree-photos-and-vintage-records-on-a-table-picture-image_2468693.jpg
-│   └── wall.jpg
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── assets
+│   │   └── image
+│   ├── forms.py
+│   ├── migrations
+│   │   ├── 0001_initial.py
+│   │   ├── 0002_albums_artists_delete_choice_delete_question.py
+│   │   ├── 0003_album_artist_delete_albums_delete_artists_and_more.py
+│   │   ├── 0004_remove_album_artist_id.py
+│   │   ├── 0005_rename_album_genre_album_genre_and_more.py
+│   │   ├── 0006_rename_genre_album_album_genre_album_artist.py
+│   │   ├── 0007_alter_album_table_alter_artist_table.py
+│   │   ├── 0008_rename_album_genre_album_genre_and_more.py
+│   │   ├── 0009_remove_album_photo.py
+│   │   └── __init__.py
+│   ├── models.py
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
 ├── docs
 │   └── snapshots
 │       ├── admin-signin.png
 │       ├── album-home.png
 │       ├── artist-home.png
 │       └── home.png
+├── manage.py
 ├── music_catalogue
-│   ├── manage.py
-│   └── music_catalogue
-│       ├── __init__.py
-│       ├── asgi.py
-│       ├── settings.py
-│       ├── urls.py
-│       └── wsgi.py
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── static
+│   │   ├── style.css
+│   │   └── stylesheet.css
+│   ├── urls.py
+│   └── wsgi.py
 ├── requirements.txt
-└── structure.txt
+├── staticfiles
+│   ├── admin
+│   │   ├── css
+│   │   ├── img
+│   │   └── js
+│   ├── images
+│   │   ├── home-logo.png
+│   │   ├── homepage_wallpaper.jpg
+│   │   ├── wall.jpg
+│   │   └── webicon.png
+│   └── stylesheet.css
+├── structure.txt
+└── templates
+    ├── music_catalogue
+    │   ├── add_album.html
+    │   ├── add_artist.html
+    │   ├── album_details.html
+    │   ├── albums.html
+    │   ├── artist_details.html
+    │   ├── artists.html
+    │   ├── authentication.html
+    │   ├── base.html
+    │   └── homepage.html
+    └── registration
+        ├── login.html
+        └── logout.html
 
-11 directories, 22 files
+18 directories, 49 files
 ```
 <!-- END_STRUCTURE -->
 ---
