@@ -2,6 +2,10 @@ name: Update README Structure
 
 on:
   push:
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
+      - 'assets/**'
     branches:
       - dev
       - main
