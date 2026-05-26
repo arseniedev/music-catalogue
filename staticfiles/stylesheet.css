@@ -1,0 +1,216 @@
+html, body, div, span, h1, h2, h3, h4, h5, h6, p, ul, ol, li, dl, dt, dd, img, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, a, article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+ 
+* {
+    box-sizing: border-box;
+}
+
+/*  LAYOUT */
+nav, main, aside, footer {
+    padding: 1em;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: black;
+}
+
+main {
+    /* display: flex; */
+}
+
+/* BUTTONS & ACCESSORIES */
+hr {
+    width: 60%;
+    height: 1px;
+    background-color: #200303;
+    margin: 2em auto;
+    display: block;
+    justify-content: center;
+    align-self: center;
+    border: none;
+}
+
+.authenticate button {
+    display: flex;
+    justify-content: center;
+}
+
+.button button{
+    background: none;
+    border: none;
+    padding: 1em 4em;
+    border: solid 1px #251601;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.button a {
+    text-decoration: none;
+    text-transform: uppercase;
+    color: inherit
+
+}
+
+.button button:hover, .button a:hover {
+    background-color: #572c04;
+    color: rgb(236, 227, 227);
+}
+
+/* FORMS */
+.login-logout-button {
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* TYPOGRAPHY */
+body {
+    font-family: "Albert Sans", sans-serif;
+    /* font-family: Merriweather, serif; */
+    background-color: #c4cbce;
+    color: rgb(2, 21, 37);
+    line-height: 1.5;
+}
+
+h1, h2, h3, nav, footer, figcaption {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+h1, h2 {
+    font-family: Oswald, "Helvetica Neue", sans-serif;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1em;
+}
+
+nav {
+    font-family: "Source Sans 3", sans-serif;
+    font-size: 1 rem;
+    font-weight: lighter;
+
+}
+
+p {
+    margin-bottom: 1.5em;
+}
+
+aside {
+    text-align: center;
+}
+
+
+nav a {
+    color: aliceblue;
+}
+
+nav ul {
+    display: flex;
+
+}
+
+/* TEXT LAYOUT */
+.head-text-overlay {
+    position: absolute;
+    top: 40%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+    width: 20%;
+    border-left: solid 6px black;
+}
+
+header {
+    position: relative;
+}
+
+header p {
+    margin: 2em 1em;
+}
+
+.head-text-overlay h1 {
+    margin: 1em; 
+    text-align: left;
+    color: rgb(29, 30, 31);
+}
+
+/* IMAGES */
+img {
+    width: 100%;
+}
+
+.head-img-container {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+}
+
+.head-img-container img {
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    opacity: 0.1;
+}
+
+#catalogue-logo {
+    max-width: 70%;
+    min-width: 70%;
+}
+
+
+/* NAVIGATION */
+nav ul, footer ul {
+    list-style-type: none;
+}
+
+nav li {
+    padding: 0.5em 2em 0.5em 0;
+}
+
+footer li {
+    margin: 0 1em;
+}
+
+nav a, footer a {
+    text-decoration: none;
+}
+
+
+/* ALLBUMS */
+#album-container ul {
+    display: flex;
+}
+
+.album-item {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.album-item a {
+    text-decoration: none;
+    color: #1b1b0a;
+}
+
+.img-placeholder {
+    border: 1px solid #1b1b0a;
+    padding: 3em;
+    width: 25%;
+    height: 40%;
+    border-radius: 10%;
+}
