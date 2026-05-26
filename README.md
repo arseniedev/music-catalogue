@@ -64,10 +64,11 @@
 ---
 
 ## Project Structure
-
 <!-- START_STRUCTURE -->
+```text
+Generating...
+```
 <!-- END_STRUCTURE -->
-
 ---
 
 ## Local Setup 
