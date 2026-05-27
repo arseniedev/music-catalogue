@@ -19,7 +19,7 @@
 
     {% if user.is_authenticated %}
     <!-- Hi {{ user.username }}! -->
-    <div>
+    <div class="btn-primary">
         <button>
             <a class="add-album" href="{% url 'add-album' %}">Add Album</a>
         </button>
