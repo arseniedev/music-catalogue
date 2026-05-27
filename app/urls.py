@@ -5,12 +5,11 @@ from . import views
 urlpatterns = [
     path("", views.home, name="homepage"),
     path("homepage/", views.home, name="homepage"),
-    path("artist/", views.all_artists, name="artists"),
+    path("artist/", views.display_artists, name="artists"),
     path("artist/<int:artist_id>/", views.artist_details, name="artist-details"),
-    path("albums/", views.all_albums, name="albums"),
+    path("albums/", views.display_albums, name="albums"),
     path("albums/<int:album_id>/", views.album_details, name="album-details"),
     path("add-album/", views.add_album, name="add-album"),
     path("add-artist/", views.add_artist, name="add-artist"),
-    # path("add-venue/submitted?submitted=True", views.add_venue, name="add-venue"),
 ] 
 
