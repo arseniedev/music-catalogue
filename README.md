@@ -86,20 +86,19 @@
 │   ├── __init__.py
 │   ├── asgi.py
 │   ├── settings.py
-│   ├── static
 │   ├── urls.py
 │   └── wsgi.py
 ├── requirements.txt
-├── staticfiles
-│   ├── admin
-│   ├── images
-│   └── stylesheet.css
 ├── structure.txt
 └── templates
-    ├── music_catalogue
+    ├── albums
+    ├── artists
+    ├── authentication.html
+    ├── base.html
+    ├── homepage.html
     └── registration
 
-14 directories, 18 files
+11 directories, 20 files
 ```
 <!-- END_STRUCTURE -->
 ---
