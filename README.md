@@ -69,38 +69,37 @@
 .
 ├── README.md
 ├── app
-│   ├── static
-│   │   ├── style.css
-│   │   └── stylesheet.css
-│   └── templates
-│       ├── music_catalogue
-│       └── registration
-├── assets
-│   ├── 5f5f966b826835d64538211b9250f51b.jpg
-│   ├── QhrkWM.jpg
-│   ├── d91292a92f297404e68b74b09410b26e.jpg
-│   ├── head-wallpaper.png
-│   ├── home-logo.png
-│   ├── pngtree-photos-and-vintage-records-on-a-table-picture-image_2468693.jpg
-│   └── wall.jpg
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── assets
+│   ├── forms.py
+│   ├── migrations
+│   ├── models.py
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
 ├── docs
 │   └── snapshots
-│       ├── admin-signin.png
-│       ├── album-home.png
-│       ├── artist-home.png
-│       └── home.png
+├── manage.py
 ├── music_catalogue
-│   ├── manage.py
-│   └── music_catalogue
-│       ├── __init__.py
-│       ├── asgi.py
-│       ├── settings.py
-│       ├── urls.py
-│       └── wsgi.py
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── static
+│   ├── urls.py
+│   └── wsgi.py
 ├── requirements.txt
-└── structure.txt
+├── staticfiles
+│   ├── admin
+│   ├── images
+│   └── stylesheet.css
+├── structure.txt
+└── templates
+    ├── music_catalogue
+    └── registration
 
-11 directories, 22 files
+14 directories, 18 files
 ```
 <!-- END_STRUCTURE -->
 ---

@@ -26,7 +26,7 @@ jobs:
 
       - name: Generate structure
         run: |
-          tree -I '.git|node_modules|__pycache__' -L 3 > structure.txt
+          tree -I '.git|node_modules|__pycache__' -L 2 > structure.txt
 
       - name: Update README
         run: |
