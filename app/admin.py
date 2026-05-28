@@ -9,9 +9,9 @@ from .models import Album, Artist
 
 @admin.register(Album)
 class AlbumAdmin(admin.ModelAdmin):
-    list_display = ('name', 'artist', 'release_date')
-    ordering = ('name',)
-    search_fields  = ('name', 'artist')
+    list_display = ('title', 'artist', 'release_date')
+    ordering = ('title',)
+    search_fields  = ('title', 'artist')
 
 @admin.register(Artist)
 class ArtistAdmin(admin.ModelAdmin):

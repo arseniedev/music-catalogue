@@ -33,7 +33,7 @@
     <table class="album-item">
         <tr>
             <th>Image</th>
-            <th>Album Name</th>
+            <th>Title</th>
             <th>Artist</th>
             <th>Release Date</th>
         </tr>
@@ -41,20 +41,31 @@
         {% for album in album_list %}
         <tr>
             <td class="cover-cell">
-                <img 
-                    class="img-placeholder"
-                    src=""
-                    title="Album cover placeholder."
-                    alt="{{ album.name }}"
-                >
+                {% if album.cover_image %}
+                    <img 
+                        class="img-placeholder"
+                        src="{{ album.cover_image.url }}"
+                        title="{{ album.title }} album cover"
+                        alt="{{ album.title }}"
+                        width="200"
+                    >
+                {% else %}
+                    <img 
+                        class="img-placeholder"
+                        src="/media/album_covers/album-cover-placeholder.png"
+                        title="{{ album.title }} album cover"
+                        alt="{{ album.title }}"
+                        width="200"
+                    >
+                {% endif %}
             </td>
 
             <td>
-                <a href="{{ album.id }}/">{{ album.name }}</a>
+                <a href="{{ album.id }}/">{{ album.title }}</a>
             </td>
 
             <td>
-                <a href="{{ album.id }}/">{{ album.artist.name }}</a>
+                <a href="{{ album.id }}/">{{ album.artist.title }}</a>
             </td>
 
             <td>
