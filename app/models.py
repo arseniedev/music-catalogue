@@ -1,4 +1,6 @@
+from PIL import Image
 from django.db import models
+import os
 # from django.utils import timezone
 # from django.contrib.auth.models import User
 
@@ -65,7 +67,8 @@ class Album(models.Model):
         super().save(*args, **kwargs)
 
         img_path = self.cover_image.path
-        img = Image.open(img_path)
+        if self.cover_image:
+            img = Image.open(self.cover_image.path)
 
         if img.height > 800 or img.width > 800:
             output_size = (800, 800)
