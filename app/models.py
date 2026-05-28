@@ -25,7 +25,7 @@ class Album(models.Model):
     )
     cover_image = models.ImageField(
         upload_to="album_covers/", 
-        default="album_covers/album-cover-placeholder.png",
+        default="album_covers/album-placeholder.png",
         null=True,
         blank=True
     )

@@ -40,9 +40,17 @@
         
             <!-- CENTER: Main Tabs -->
             <div class="nav__center nav__cluster--desktop">
-                <a href="{% url 'homepage' %}" class="navlink">Home</a>
-                <a href="{% url 'albums' %}" class="navlink">Albums</a>
-                <a href="{% url 'artists' %}" class="navlink">Artists</a>
+                <a href="{% url 'homepage' %}" class="navlink {% if request.resolver_match.url_name == 'homepage' %}is-active{% endif %}">
+                    Home
+                </a>
+                
+                <a href="{% url 'albums' %}" class="navlink {% if request.resolver_match.url_name == 'albums' %}is-active{% endif %}">
+                    Albums
+                </a>
+                
+                <a href="{% url 'artists' %}" class="navlink {% if request.resolver_match.url_name == 'artists' %}is-active{% endif %}">
+                    Artists
+                </a>
             </div>
         
             <!-- RIGHT: Auth -->

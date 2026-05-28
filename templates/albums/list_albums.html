@@ -40,32 +40,38 @@
     <div class="album-card">
         <div class="album-card__image">
             {% if album.cover_image %}
-                <img 
-                    src="{{ album.cover_image.url }}"
-                    alt="{{ album.title }}"
-                    class="album-card__img">
-            {% else %}
-                <img 
-                    src="/media/image-placeholder.png"
-                    alt="Album cover placeholder"
-                    class="album-card__img">
-            {% endif %}
-            <div class="album-card__overlay">
-                <a href="{% url 'album-details' album.id %}" class="btn btn--primary btn--sm">View Details</a>
+                <a href="{% url 'album-details' album.id %}">
+                    <img 
+                        src="{{ album.cover_image.url }}"
+                        alt="{{ album.title }}"
+                        class="album-card__img">
+                </a>
+                {% else %}
+                    <img 
+                        src="/media/album_covers/album-placeholder.png"
+                        alt="Album cover placeholder"
+                        class="album-card__img">
+                {% endif %}
+                <div class="album-card__overlay">
+                    <a href="{% url 'album-details' album.id %}" class="btn--view-details btn--sm"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#D9D9D9"><path d="M200-120q-33 0-56.5-23.5T120-200v-160h80v160h160v80H200Zm400 0v-80h160v-160h80v160q0 33-23.5 56.5T760-120H600ZM120-600v-160q0-33 23.5-56.5T200-840h160v80H200v160h-80Zm640 0v-160H600v-80h160q33 0 56.5 23.5T840-760v160h-80Z"/></svg></a>
+                </div>
             </div>
-        </div>
-        <div class="album-card__content">
-            <h3 class="album-card__title">{{ album.title }}</h3>
-            <p class="album-card__artist">{{ album.artist.name|default:"Unknown Artist" }}</p>
-            <p class="album-card__meta">{{ album.genre|title }} • {{ album.release_date|date:"Y" }}</p>
-            
-            {% if user.is_authenticated %}
-            <div class="album-card__actions">
-                <a href="{% url 'edit-album' album.id %}" class="btn btn--secondary btn--sm">Edit</a>
-                <button type="button" class="btn btn--danger btn--sm" onclick="openDeleteModal({{ album.id }}, '{{ album.title }}')">Delete</button>
+            <div class="album-card__content">
+                <h3 class="album-card__title">{{ album.title }}</h3>
+                <p class="album-card__artist">{{ album.artist.name|default:"Unknown Artist" }}</p>
+                <p class="album-card__meta">{{ album.genre|title }} • {{ album.release_date|date:"Y" }}</p>
+                
+                {% if user.is_authenticated %}
+                <div class="album-card__actions">
+                    <a href="{% url 'edit-album' album.id %}" class="btn btn--secondary btn--sm">Edit</a>
+                    <button class="btn-charge btn--danger" data-duration="600">
+                        <div class="btn-label" onClick="openDeleteModal({{ album.id }}, '{{ album.title }}')" role="button">Delete</div>
+                        <span class="btn-progress"></span>
+                    </button>
+
+                </div>
+                {% endif %}
             </div>
-            {% endif %}
-        </div>
     </div>
     {% endfor %}
 </div>
@@ -169,9 +175,10 @@
     .album-card {
         display: flex;
         flex-direction: column;
-        border-radius: var(--radius-sm);
+        border-radius: var(--radius-md);
         overflow: hidden;
         border: 1px solid var(--line);
+        padding: 2em;
         background: var(--panel);
         transition: all 0.3s ease;
     }
@@ -279,8 +286,60 @@
             flex-direction: column;
         }
     }
+    .btn-charge {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      
+        padding: 10px 14px;
+        border: 1px solid #ccc;
+        background: transparent;
+      
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      
+        cursor: pointer;
+        overflow: hidden;
+      }
+      
+      /* progress bar */
+      .btn-progress {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 2px;
+        width: 100%;
+        background: red;
+      
+        transform: scaleX(0);
+        transform-origin: left;
+      }
+      
+      /* hover triggers animation */
+      .btn-charge:is(:hover, :focus-visible) .btn-progress {
+        animation: charge var(--charge-dur, 600ms) linear forwards;
+      }
+      
+      /* fully charged state */
+      .btn-charge[data-ready] .btn-progress {
+        transform: scaleX(1);
+        animation: none;
+      }
+      
+      /* label stays above animation */
+      .btn-label {
+        position: relative;
+        z-index: 1;
+      }
+      
+      @keyframes charge {
+        to {
+          transform: scaleX(1);
+        }
+      }
 </style>
-
 <script>
     let deleteAlbumId = null;
 
@@ -295,12 +354,61 @@
         document.getElementById('deleteModal').style.display = 'none';
     }
 
-    // Close modal when clicking outside
     document.getElementById('deleteModal')?.addEventListener('click', function(e) {
-        if (e.target === this) {
-            closeDeleteModal();
-        }
+        if (e.target === this) closeDeleteModal();
     });
+
+    /* =========================
+       FRICTION DELETE BUTTON
+    ========================== */
+
+    const deleteBtn = document.querySelector('.btn-confirm');
+
+    if (deleteBtn) {
+        const progress = deleteBtn.querySelector('.btn-progress');
+        const duration = 800;
+
+        let ready = false;
+        let chargeTimer = null;
+        let decayTimer = null;
+
+        const arm = () => {
+            ready = true;
+            deleteBtn.dataset.ready = "true";
+        };
+
+        const reset = () => {
+            ready = false;
+            deleteBtn.dataset.ready = "";
+            progress.style.transform = "scaleX(0)";
+        };
+
+        const startCharge = () => {
+            clearTimeout(chargeTimer);
+            chargeTimer = setTimeout(arm, duration);
+        };
+
+        const startDecay = () => {
+            clearTimeout(decayTimer);
+            decayTimer = setTimeout(reset, 1200);
+        };
+
+        const activate = () => {
+            if (!ready) return;
+
+            // trigger actual form submit
+            const form = document.getElementById('deleteForm');
+            if (form) form.submit();
+        };
+
+        deleteBtn.addEventListener('pointerenter', startCharge);
+        deleteBtn.addEventListener('focus', startCharge);
+
+        deleteBtn.addEventListener('pointerleave', startDecay);
+        deleteBtn.addEventListener('focusout', startDecay);
+
+        deleteBtn.addEventListener('click', activate);
+    }
 </script>
 
 {% endblock %}

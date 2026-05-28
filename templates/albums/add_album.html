@@ -5,290 +5,252 @@
 
 {% block content %}
 
-<div class="form-page">
-    <div class="form-page__header">
+<div class="admin-page">
+
+    <!-- Header -->
+    <div class="admin-header">
         <a href="{% url 'albums' %}" class="breadcrumb">← Back to Albums</a>
+
+        <div class="admin-title">
+            <div class="kicker">ADMIN PANEL</div>
+            <h1>Add Album</h1>
+            <p>Fill in the details to add a new album to the catalogue.</p>
+        </div>
     </div>
 
     {% if submitted %}
-    <div class="success-message">
-        <div class="success-message__content">
-            <div style="font-size: 48px; margin-bottom: 16px;">✓</div>
-            <h2>Album Added Successfully!</h2>
-            <p>Your album has been added to the catalogue.</p>
-            <a href="{% url 'albums' %}" class="btn btn--primary">Back to Albums</a>
-        </div>
-    </div>
-    {% else %}
-    <div class="form-container">
-        <div class="form-header">
-            <div class="kicker">ADMIN</div>
-            <h1>Add Album to Catalogue</h1>
-            <p>Fill in the details below to add a new album to your collection.</p>
-        </div>
-
-        <form class="form" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            
-            <fieldset class="form__fieldset">
-                <legend>Album Information</legend>
-                <div class="form__group">
-                    <label for="{{ form.title.id_for_label }}">Album Title</label>
-                    {{ form.title }}
-                </div>
-                <div class="form__group">
-                    <label for="{{ form.artist.id_for_label }}">Artist</label>
-                    {{ form.artist }}
-                </div>
-                <div class="form__group">
-                    <label for="{{ form.release_date.id_for_label }}">Release Date</label>
-                    {{ form.release_date }}
-                </div>
-                    
-            </fieldset>
-
-            <fieldset class="form__fieldset">
-                <legend>Production Details</legend>
-                <div class="form__group">
-                    <label for="{{ form.producer_name.id_for_label }}">Producer</label>
-                    {{ form.producer_name }}
-                </div>
-                <div class="form__group">
-                    <label for="{{ form.record_label.id_for_label }}">Record Label</label>
-                    {{ form.record_label }}
-                </div>
-            </fieldset>
-
-            <fieldset class="form__fieldset">
-                <legend>Classification</legend>
-                <div class="form__group">
-                    <label for="{{ form.genre.id_for_label }}">Genre</label>
-                    {{ form.genre }}
-                </div>
-            </fieldset>
-
-            <fieldset class="form__fieldset">
-                <legend>Media</legend>
-                <div class="form__group">
-                    <label for="{{ form.genre.id_for_label }}">Album Cover</label>
-                    {{ form.cover_image }}
-                </div>
-            </fieldset>
-
-            <fieldset class="form__fieldset">
-                <legend>Details(Optional)</legend>
-                {{ form.comment }}
-            </fieldset>
-
-            <div class="form__actions">
-                <a href="{% url 'albums' %}" class="btn btn--ghost">Cancel</a>
-                <button type="submit" class="btn btn--primary">Add Album</button>
+        <div class="success">
+            <div class="success-box">
+                <div class="success-icon">✓</div>
+                <h2>Album Added</h2>
+                <a class="btn btn--primary" href="{% url 'albums' %}">Back</a>
             </div>
-        </form>
-    </div>
+        </div>
+    {% else %}
+
+    <form class="admin-form" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-grid">
+
+            <!-- LEFT COLUMN -->
+            <div class="form-col">
+
+                <fieldset class="panel">
+                    <legend>Album Info</legend>
+
+                    <div class="field">
+                        <label>Album Title</label>
+                        {{ form.title }}
+                    </div>
+
+                    <div class="field">
+                        <label>Artist</label>
+                        {{ form.artist }}
+                    </div>
+
+                    <div class="field">
+                        <label>Release Date</label>
+                        {{ form.release_date }}
+                    </div>
+                </fieldset>
+
+                <fieldset class="panel">
+                    <legend>Production</legend>
+
+                    <div class="field">
+                        <label>Producer</label>
+                        {{ form.producer_name }}
+                    </div>
+
+                    <div class="field">
+                        <label>Record Label</label>
+                        {{ form.record_label }}
+                    </div>
+                </fieldset>
+
+            </div>
+
+            <!-- RIGHT COLUMN -->
+            <div class="form-col">
+
+                <fieldset class="panel">
+                    <legend>Classification</legend>
+
+                    <div class="field">
+                        <label>Genre</label>
+                        {{ form.genre }}
+                    </div>
+                </fieldset>
+
+                <fieldset class="panel">
+                    <legend>Media</legend>
+
+                    <div class="field">
+                        <label>Album Cover</label>
+                        {{ form.cover_image }}
+                    </div>
+                </fieldset>
+
+                <fieldset class="panel panel--full">
+                    <legend>Notes</legend>
+
+                    <div class="field">
+                        {{ form.comment }}
+                    </div>
+                </fieldset>
+
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+            <a href="{% url 'albums' %}" class="btn btn--ghost">Cancel</a>
+            <button type="submit" class="btn btn--primary">Save Album</button>
+        </div>
+
+    </form>
+
     {% endif %}
 </div>
-
 <style>
-    .form-page {
-        max-width: 800px;
-        margin: 40px auto;
-        padding: 0 20px;
+/* ================= ADMIN PAGE LAYOUT ================= */
+
+.admin-page {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* HEADER */
+.admin-header {
+    margin-bottom: 32px;
+}
+
+.breadcrumb {
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.breadcrumb:hover {
+    color: var(--accent);
+}
+
+.admin-title {
+    margin-top: 16px;
+}
+
+.kicker {
+    font-size: 12px;
+    letter-spacing: .12em;
+    font-weight: 800;
+    color: var(--accent);
+}
+
+.admin-title h1 {
+    margin: 8px 0;
+    font-size: 32px;
+}
+
+.admin-title p {
+    color: var(--muted);
+    margin: 0;
+}
+
+/* ================= FORM GRID ================= */
+
+.admin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* 2-column layout */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+/* each column */
+.form-col {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* panels */
+.panel {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 20px;
+    background: rgba(255,255,255,0.03);
+}
+
+.panel legend {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+}
+
+/* fields */
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+
+.field label {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.field input,
+.field select,
+.field textarea {
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--panel);
+    color: var(--text);
+    font-size: 14px;
+}
+
+/* textarea */
+textarea {
+    min-height: 140px;
+    resize: vertical;
+}
+
+/* ACTIONS */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+}
+
+/* ================= RESPONSIVE ================= */
+
+/* tablet + mobile */
+@media (max-width: 64em) {
+    .form-grid {
+        grid-template-columns: 1fr;
     }
 
-    .form-page__header {
-        margin-bottom: 40px;
-    }
-
-    .breadcrumb {
-        font-size: 14px;
-        color: var(--muted);
-        font-weight: 600;
-        transition: color 0.2s ease;
-    }
-
-    .breadcrumb:hover {
-        color: var(--accent);
-    }
-
-    .success-message {
-        display: grid;
-        place-items: center;
-        min-height: 400px;
-    }
-
-    .success-message__content {
-        text-align: center;
-        padding: 40px;
-        border: 1px solid var(--line);
-        border-radius: var(--radius-sm);
-        background: linear-gradient(180deg, var(--glass-05), var(--glass-02));
-    }
-
-    .success-message__content h2 {
-        margin: 0 0 12px;
-        font-size: 28px;
-        font-weight: 700;
-    }
-
-    .success-message__content p {
-        margin: 0 0 24px;
-        color: var(--muted);
-    }
-
-    .form-container {
-        border: 1px solid var(--line);
-        border-radius: var(--radius-sm);
-        padding: 40px;
-        background: linear-gradient(180deg, var(--glass-05), var(--glass-02));
-    }
-
-    .form-header {
-        margin-bottom: 40px;
-        padding-bottom: 32px;
-        border-bottom: 1px solid var(--line);
-    }
-
-    .kicker {
-        display: inline-block;
-        font-size: 12px;
-        font-weight: 800;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--accent);
-        margin-bottom: 12px;
-    }
-
-    .form-header h1 {
-        margin: 0 0 12px;
-        font-size: 32px;
-        font-weight: 900;
-    }
-
-    .form-header p {
-        margin: 0;
-        font-size: 14px;
-        color: var(--muted);
-    }
-
-    .form {
-        display: flex;
+    .form-actions {
         flex-direction: column;
-        gap: 32px;
     }
 
-    .form__fieldset {
-        border: none;
-        padding: 0;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
+    .form-actions .btn {
+        width: 100%;
     }
-
-    .form__fieldset legend {
-        font-size: 14px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: var(--muted);
-        margin-bottom: 8px;
-        padding: 0;
-    }
-
-    /* Form controls */
-    .form p {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        margin: 0;
-    }
-
-    .form label {
-        font-size: 14px;
-        font-weight: 600;
-        color: var(--text);
-    }
-
-    .form input[type="text"],
-    .form input[type="date"],
-    .form input[type="email"],
-    .form input[type="number"],
-    .form select,
-    .form textarea {
-        padding: 12px 14px;
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        background: var(--panel);
-        color: var(--text);
-        font-family: inherit;
-        font-size: 14px;
-        transition: all 0.2s ease;
-    }
-
-    .form input[type="text"]:focus,
-    .form input[type="date"]:focus,
-    .form input[type="email"]:focus,
-    .form input[type="number"]:focus,
-    .form select:focus,
-    .form textarea:focus {
-        outline: none;
-        border-color: var(--accent);
-        box-shadow: 0 0 0 4px var(--ring-2);
-    }
-
-    .form textarea {
-        min-height: 120px;
-        resize: vertical;
-    }
-
-    .form input[type="file"] {
-        color: var(--muted);
-    }
-
-    .form input[type="file"]::file-selector-button {
-        padding: 8px 12px;
-        margin-right: 12px;
-        border: 1px solid var(--line);
-        border-radius: 6px;
-        background: var(--panel);
-        color: var(--text);
-        cursor: pointer;
-        font-weight: 600;
-        transition: all 0.2s ease;
-    }
-
-    .form input[type="file"]::file-selector-button:hover {
-        background: var(--panel-2);
-        border-color: var(--accent);
-    }
-
-    .form__actions {
-        display: flex;
-        gap: 12px;
-        margin-top: 24px;
-        padding-top: 24px;
-        border-top: 1px solid var(--line);
-    }
-
-    /* Responsive */
-    @media (max-width: 640px) {
-        .form-container {
-            padding: 24px;
-        }
-
-        .form-header h1 {
-            font-size: 24px;
-        }
-
-        .form__actions {
-            flex-direction: column;
-        }
-
-        .form__actions .btn {
-            width: 100%;
-        }
-    }
+}
 </style>
-
 {% endblock %}
