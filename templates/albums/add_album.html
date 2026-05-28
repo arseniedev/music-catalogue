@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %} Home | Music Collecotrs Catalogue {% endblock %}
+{% block title %} Album | Music Collectors Catalogue {% endblock %}
 
 {% block content %}
     <center>
@@ -16,9 +16,10 @@
                 {% csrf_token %}
 
                 {{form.as_p}}
-
-                <input type="submit" value="submit" class="submit-album-form">
-
+                
+                <div class="btn-primary">
+                    <input type="submit" value="Submit" class="submit-album-form">
+                </div>
             </form>
         {% endif %}
     </center>

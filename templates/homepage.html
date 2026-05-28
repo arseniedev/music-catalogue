@@ -24,13 +24,13 @@
 
 <form action="{% url 'logout' %}" method="post">
   {% csrf_token %}
-    <div class="auth-button">
+    <div class="auth-button btn-primary">
       <button type="submit">Log Out</button>
     </div>
   </form>
 
   {% else %}
-  <div class="auth-button">
+  <div class="auth-button btn-primary">
     <button>
       <a href="{% url 'login' %}">Log In</a>
     </button>
