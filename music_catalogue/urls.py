@@ -16,7 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-# from django.views.generic.base import TemplateView 
+from django.views.generic.base import TemplateView 
+from django.contrib.auth import views as auth_views
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -24,10 +25,13 @@ from django.conf.urls.static import static
 urlpatterns = [
 	path('admin/', admin.site.urls),
     path("auth/", include("django.contrib.auth.urls")),
+    # path("auth/login/", auth_views.LoginView.as_view(
+    #     template_name="templates/admin/login.html"
+    # )),
     # path("", TemplateView.as_view(template_name="/var/www/homepage.html"), name="home"),
+    # path("", TemplateView.as_view(template_name="admin/login.html"), name="login"),
 	path("", include("app.urls")),
-	# path("homepage/", include("app.urls")),
-	# path("/accounts/", include("django.contrib.auth.urls")), 
+    path("__reload__/", include("django_browser_reload.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 

@@ -12,7 +12,7 @@
 
     <div class="delete-container">
         <div class="delete-warning">
-            <div style="font-size: 64px; margin-bottom: 20px; color: #ff4040;">⚠️</div>
+            <div class="danger-mark">!</div>
             <h1>Delete Album</h1>
             <p>Are you sure you want to delete this album?</p>
         </div>
@@ -26,7 +26,7 @@
                         class="album-preview__img">
                 {% else %}
                     <img 
-                        src="/media/album_covers/image-placeholder.png"
+                        src="/media/image-placeholder.png"
                         alt="Album cover placeholder"
                         class="album-preview__img">
                 {% endif %}
@@ -75,10 +75,10 @@
     }
 
     .delete-container {
-        border: 2px solid rgba(255, 64, 64, 0.35);
+        border: 2px solid var(--danger-35);
         border-radius: var(--radius-sm);
         padding: 40px;
-        background: linear-gradient(180deg, rgba(255, 64, 64, 0.05), rgba(255, 64, 64, 0.02));
+        background: linear-gradient(180deg, var(--danger-05), var(--danger-02));
     }
 
     .delete-warning {
@@ -151,8 +151,8 @@
     }
 
     .delete-warning__text {
-        background: rgba(255, 64, 64, 0.1);
-        border: 1px solid rgba(255, 64, 64, 0.2);
+        background: var(--danger-10);
+        border: 1px solid var(--danger-20);
         border-radius: 8px;
         padding: 16px;
         margin-bottom: 32px;

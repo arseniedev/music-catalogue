@@ -29,13 +29,22 @@
 
         <form class="form" method="POST">
             {% csrf_token %}
-            
+        
             <fieldset class="form__fieldset">
                 <legend>Artist Information</legend>
-                {{ form.name }}
-                {{ form.country }}
+        
+                <div class="form__group">
+                    <label for="{{ form.name.id_for_label }}">Artist Name</label>
+                    {{ form.name }}
+                </div>
+        
+                <div class="form__group">
+                    <label for="{{ form.country.id_for_label }}">Country</label>
+                    {{ form.country }}
+                </div>
+        
             </fieldset>
-
+        
             <div class="form__actions">
                 <a href="{% url 'artists' %}" class="btn btn--ghost">Cancel</a>
                 <button type="submit" class="btn btn--primary">Add Artist</button>
@@ -78,7 +87,7 @@
         padding: 40px;
         border: 1px solid var(--line);
         border-radius: var(--radius-sm);
-        background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+        background: linear-gradient(180deg, var(--glass-05), var(--glass-02));
     }
 
     .success-message__content h2 {
@@ -96,7 +105,7 @@
         border: 1px solid var(--line);
         border-radius: var(--radius-sm);
         padding: 40px;
-        background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+        background: linear-gradient(180deg, var(--glass-05), var(--glass-02));
     }
 
     .form-header {
@@ -186,7 +195,7 @@
     .form textarea:focus {
         outline: none;
         border-color: var(--accent);
-        box-shadow: 0 0 0 4px rgba(255, 106, 26, 0.12);
+        box-shadow: 0 0 0 4px var(--ring-2);
     }
 
     .form textarea {

@@ -8,7 +8,10 @@ def home(request):
     return render(request, "homepage.html")
 
 def auth(request):
-    return render(request, "authentication.html")
+    return render(request, "login.html")
+
+def auth_status(request):
+    return render(request, "admin/status.html")
 
 def album_details(request, album_id):
     print(f'[DEBUG] album_details: ${album_id}')

@@ -32,29 +32,51 @@
             
             <fieldset class="form__fieldset">
                 <legend>Album Information</legend>
-                {{ form.title }}
-                {{ form.artist }}
-                {{ form.release_date }}
+                <div class="form__group">
+                    <label for="{{ form.title.id_for_label }}">Album Title</label>
+                    {{ form.title }}
+                </div>
+                <div class="form__group">
+                    <label for="{{ form.artist.id_for_label }}">Artist</label>
+                    {{ form.artist }}
+                </div>
+                <div class="form__group">
+                    <label for="{{ form.release_date.id_for_label }}">Release Date</label>
+                    {{ form.release_date }}
+                </div>
+                    
             </fieldset>
 
             <fieldset class="form__fieldset">
                 <legend>Production Details</legend>
-                {{ form.producer_name }}
-                {{ form.record_label }}
+                <div class="form__group">
+                    <label for="{{ form.producer_name.id_for_label }}">Producer</label>
+                    {{ form.producer_name }}
+                </div>
+                <div class="form__group">
+                    <label for="{{ form.record_label.id_for_label }}">Record Label</label>
+                    {{ form.record_label }}
+                </div>
             </fieldset>
 
             <fieldset class="form__fieldset">
                 <legend>Classification</legend>
-                {{ form.genre }}
+                <div class="form__group">
+                    <label for="{{ form.genre.id_for_label }}">Genre</label>
+                    {{ form.genre }}
+                </div>
             </fieldset>
 
             <fieldset class="form__fieldset">
                 <legend>Media</legend>
-                {{ form.cover_image }}
+                <div class="form__group">
+                    <label for="{{ form.genre.id_for_label }}">Album Cover</label>
+                    {{ form.cover_image }}
+                </div>
             </fieldset>
 
             <fieldset class="form__fieldset">
-                <legend>Notes (Optional)</legend>
+                <legend>Details(Optional)</legend>
                 {{ form.comment }}
             </fieldset>
 
@@ -100,7 +122,7 @@
         padding: 40px;
         border: 1px solid var(--line);
         border-radius: var(--radius-sm);
-        background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+        background: linear-gradient(180deg, var(--glass-05), var(--glass-02));
     }
 
     .success-message__content h2 {
@@ -118,7 +140,7 @@
         border: 1px solid var(--line);
         border-radius: var(--radius-sm);
         padding: 40px;
-        background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+        background: linear-gradient(180deg, var(--glass-05), var(--glass-02));
     }
 
     .form-header {
@@ -212,7 +234,7 @@
     .form textarea:focus {
         outline: none;
         border-color: var(--accent);
-        box-shadow: 0 0 0 4px rgba(255, 106, 26, 0.12);
+        box-shadow: 0 0 0 4px var(--ring-2);
     }
 
     .form textarea {
@@ -237,7 +259,7 @@
     }
 
     .form input[type="file"]::file-selector-button:hover {
-        background: rgba(255, 106, 26, 0.1);
+        background: var(--panel-2);
         border-color: var(--accent);
     }
 

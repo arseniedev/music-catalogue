@@ -12,7 +12,7 @@
     </div>
     {% if user.is_authenticated %}
     <div class="page-actions">
-        <a href="{% url 'add-artist' %}" class="btn btn--primary">+ Add Artist</a>
+        <a href="{% url 'add-artist' %}" class="btn btn--primary button-54">Add Artist</a>
     </div>
     {% endif %}
 </div>
@@ -22,7 +22,7 @@
     {% for artist in artist_list %}
     <div class="artist-card">
         <div class="artist-card__header">
-            <div class="artist-card__icon">🎤</div>
+            <div class="artist-card__icon">ARTIST</div>
         </div>
         <div class="artist-card__content">
             <h3 class="artist-card__name">{{ artist.name }}</h3>
@@ -116,18 +116,18 @@
         border-radius: var(--radius-sm);
         overflow: hidden;
         border: 1px solid var(--line);
-        background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+        background: linear-gradient(180deg, var(--glass-05), var(--glass-02));
         transition: all 0.3s ease;
     }
 
     .artist-card:hover {
         border-color: var(--accent);
-        box-shadow: 0 0 0 4px rgba(255, 106, 26, 0.12), var(--shadow);
+        box-shadow: 0 0 0 4px var(--ring-2), var(--shadow);
     }
 
     .artist-card__header {
         padding: 32px 24px;
-        background: linear-gradient(135deg, rgba(255, 106, 26, 0.1), rgba(255, 177, 74, 0.05));
+        background: linear-gradient(135deg, var(--panel-2), var(--glass-05));
         border-bottom: 1px solid var(--line);
     }
 

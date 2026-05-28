@@ -12,7 +12,7 @@
     </div>
     {% if user.is_authenticated %}
     <div class="page-actions">
-        <a href="{% url 'add-album' %}" class="btn btn--primary">+ Add Album</a>
+        <a href="{% url 'add-album' %}" class="btn btn--primary button-54" role="button">Add Album</a>
     </div>
     {% endif %}
 </div>
@@ -26,7 +26,11 @@
             placeholder="Search albums..." 
             value="{{ request.GET.q }}"
             class="search-input">
-        <button type="submit" class="btn btn--secondary">Search</button>
+        <button type="submit" class="btn btn--secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+              </svg>
+        </button>
     </form>
 </div>
 
@@ -42,7 +46,7 @@
                     class="album-card__img">
             {% else %}
                 <img 
-                    src="/media/album_covers/image-placeholder.png"
+                    src="/media/image-placeholder.png"
                     alt="Album cover placeholder"
                     class="album-card__img">
             {% endif %}
@@ -73,7 +77,7 @@
 
 <!-- Delete Modal -->
 <div class="modal" id="deleteModal" style="display: none;">
-    <div class="modal__backdrop" onclick="closeDeleteModal()"></div>
+    <div class="modal__backdrop" role="button" tabindex="0" onclick="closeDeleteModal()" onkeydown="if(event.key==='Enter'||event.key===' '){ closeDeleteModal(); }"></div>
     <div class="modal__panel">
         <div class="modal__head">
             <h2 class="modal__title">Delete Album</h2>
@@ -151,7 +155,7 @@
     .search-input:focus {
         outline: none;
         border-color: var(--accent);
-        box-shadow: 0 0 0 4px rgba(255, 106, 26, 0.12);
+        box-shadow: 0 0 0 4px var(--ring-2);
     }
 
     /* Album Grid */
@@ -174,7 +178,7 @@
 
     .album-card:hover {
         border-color: var(--accent);
-        box-shadow: 0 0 0 4px rgba(255, 106, 26, 0.12), var(--shadow);
+        box-shadow: 0 0 0 4px var(--ring-2), var(--shadow);
     }
 
     .album-card__image {
@@ -197,7 +201,7 @@
         display: flex;
         align-items: flex-end;
         padding: 16px;
-        background: linear-gradient(180deg, transparent, rgba(0,0,0,.55));
+        background: linear-gradient(180deg, transparent, var(--overlay-55));
         opacity: 0;
         transition: opacity 0.3s ease;
     }
@@ -298,49 +302,5 @@
         }
     });
 </script>
-
-{% endblock %}
-                    >
-                {% else %}
-                    <img 
-                        class="img-placeholder"
-                        src="/media/album_covers/album-cover-placeholder.png"
-                        title="{{ album.title }} album cover"
-                        alt="{{ album.title }}"
-                        width="200"
-                    >
-                {% endif %}
-            </td>
-
-            <td>
-                <a href="{{ album.id }}/">{{ album.title }}</a>
-            </td>
-
-            <td>
-                <a href="{{ album.id }}/">{{ album.artist.title }}</a>
-            </td>
-
-            <td>
-                <a href="{{ album.id }}/">{{ album.release_date }}</a>
-            </td>
-        </tr>
-
-        {% empty %}
-        <tr>
-            <td colspan="4">No albums found.</td>
-        </tr>
-        {% endfor %}
-    </table>
-</div>
-
-{% if user.is_authenticated %}
-<div class="btn-primary">
-    <button>
-        <a class="add-album" href="{% url 'add-album' %}">
-            Add Album
-        </a>
-    </button>
-</div>
-{% endif %}
 
 {% endblock %}

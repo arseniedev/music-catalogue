@@ -12,7 +12,7 @@
 <article class="artist-detail">
     <!-- Header Section -->
     <div class="artist-detail__header">
-        <div class="artist-detail__icon">🎤</div>
+        <div class="artist-detail__icon">ARTIST</div>
         <div>
             <div class="kicker">ARTIST</div>
             <h1 class="artist-detail__name">{{ artist.name }}</h1>
@@ -42,7 +42,7 @@
                             class="album-mini-card__img">
                     {% else %}
                         <img 
-                            src="/media/album_covers/image-placeholder.png"
+                            src="/media/image-placeholder.png"
                             alt="Album cover placeholder"
                             class="album-mini-card__img">
                     {% endif %}
@@ -124,7 +124,7 @@
         padding: 40px;
         border: 1px solid var(--line);
         border-radius: var(--radius-sm);
-        background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+        background: linear-gradient(180deg, var(--glass-05), var(--glass-02));
         margin-bottom: 60px;
     }
 
@@ -187,7 +187,7 @@
 
     .album-mini-card:hover {
         border-color: var(--accent);
-        box-shadow: 0 0 0 4px rgba(255, 106, 26, 0.12);
+        box-shadow: 0 0 0 4px var(--ring-2);
     }
 
     .album-mini-card__image {
