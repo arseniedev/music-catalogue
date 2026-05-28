@@ -1,53 +1,305 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %} {{page_title}} | Music Collectors Catalogue {% endblock %}
 
 {% block content %}
 
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Albums</h1>
+        <p class="page-subtitle">{{ album_list|length }} albums in collection</p>
+    </div>
+    {% if user.is_authenticated %}
+    <div class="page-actions">
+        <a href="{% url 'add-album' %}" class="btn btn--primary">+ Add Album</a>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Search form -->
+<div class="search-filter">
+    <form method="get" class="search-form">
+        <input 
+            type="text" 
+            name="q" 
+            placeholder="Search albums..." 
+            value="{{ request.GET.q }}"
+            class="search-input">
+        <button type="submit" class="btn btn--secondary">Search</button>
+    </form>
+</div>
+
+{% if album_list %}
+<div class="album-grid">
+    {% for album in album_list %}
+    <div class="album-card">
+        <div class="album-card__image">
+            {% if album.cover_image %}
+                <img 
+                    src="{{ album.cover_image.url }}"
+                    alt="{{ album.title }}"
+                    class="album-card__img">
+            {% else %}
+                <img 
+                    src="/media/album_covers/image-placeholder.png"
+                    alt="Album cover placeholder"
+                    class="album-card__img">
+            {% endif %}
+            <div class="album-card__overlay">
+                <a href="{% url 'album-details' album.id %}" class="btn btn--primary btn--sm">View Details</a>
+            </div>
+        </div>
+        <div class="album-card__content">
+            <h3 class="album-card__title">{{ album.title }}</h3>
+            <p class="album-card__artist">{{ album.artist.name|default:"Unknown Artist" }}</p>
+            <p class="album-card__meta">{{ album.genre|title }} • {{ album.release_date|date:"Y" }}</p>
+            
+            {% if user.is_authenticated %}
+            <div class="album-card__actions">
+                <a href="{% url 'edit-album' album.id %}" class="btn btn--secondary btn--sm">Edit</a>
+                <button type="button" class="btn btn--danger btn--sm" onclick="openDeleteModal({{ album.id }}, '{{ album.title }}')">Delete</button>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+    <p>No albums found. {% if user.is_authenticated %}<a href="{% url 'add-album' %}">Add your first album</a>{% endif %}</p>
+</div>
+{% endif %}
+
+<!-- Delete Modal -->
+<div class="modal" id="deleteModal" style="display: none;">
+    <div class="modal__backdrop" onclick="closeDeleteModal()"></div>
+    <div class="modal__panel">
+        <div class="modal__head">
+            <h2 class="modal__title">Delete Album</h2>
+            <button type="button" class="icon-btn" onclick="closeDeleteModal()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <div class="modal__body">
+            <p>Are you sure you want to delete <strong id="albumTitle"></strong>? This action cannot be undone.</p>
+        </div>
+        <div class="modal__foot">
+            <button type="button" class="btn btn--ghost" onclick="closeDeleteModal()">Cancel</button>
+            <form method="post" style="display: inline;" id="deleteForm">
+                {% csrf_token %}
+                <button type="submit" class="btn btn--danger">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>
+
 <style>
-    table {
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 40px;
+        gap: 20px;
+    }
+
+    .page-title {
+        margin: 0 0 8px;
+        font-size: 40px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: -0.02em;
+    }
+
+    .page-subtitle {
+        margin: 0;
+        font-size: 14px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+    }
+
+    .page-actions {
+        display: flex;
+        gap: 12px;
+    }
+
+    .search-filter {
+        margin-bottom: 40px;
+    }
+
+    .search-form {
+        display: flex;
+        gap: 12px;
+        max-width: 500px;
+    }
+
+    .search-input {
+        flex: 1;
+        padding: 10px 14px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        color: var(--text);
+        font-size: 14px;
+        font-family: inherit;
+    }
+
+    .search-input:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px rgba(255, 106, 26, 0.12);
+    }
+
+    /* Album Grid */
+    .album-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 24px;
+        margin-bottom: 60px;
+    }
+
+    .album-card {
+        display: flex;
+        flex-direction: column;
+        border-radius: var(--radius-sm);
+        overflow: hidden;
+        border: 1px solid var(--line);
+        background: var(--panel);
+        transition: all 0.3s ease;
+    }
+
+    .album-card:hover {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px rgba(255, 106, 26, 0.12), var(--shadow);
+    }
+
+    .album-card__image {
+        position: relative;
         width: 100%;
-        border-collapse: collapse;
+        aspect-ratio: 1;
+        overflow: hidden;
+        background: var(--panel-2);
     }
 
-    td, th {
-        padding: 10px;
-        border: 1px solid #ccc;
-    }
-
-    .cover-cell {
-        width: 120px;
-    }
-
-    .img-placeholder {
+    .album-card__img {
         width: 100%;
-        height: auto;
-        display: block;
+        height: 100%;
         object-fit: cover;
+    }
+
+    .album-card__overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: flex-end;
+        padding: 16px;
+        background: linear-gradient(180deg, transparent, rgba(0,0,0,.55));
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .album-card:hover .album-card__overlay {
+        opacity: 1;
+    }
+
+    .album-card__content {
+        padding: 16px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .album-card__title {
+        margin: 0 0 6px;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 1.3;
+    }
+
+    .album-card__artist {
+        margin: 0 0 6px;
+        font-size: 14px;
+        color: var(--accent);
+        font-weight: 600;
+    }
+
+    .album-card__meta {
+        margin: 0 0 12px;
+        font-size: 12px;
+        color: var(--muted);
+    }
+
+    .album-card__actions {
+        display: flex;
+        gap: 8px;
+        margin-top: auto;
+    }
+
+    .btn--sm {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--muted);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .page-header {
+            flex-direction: column;
+        }
+
+        .album-grid {
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .page-title {
+            font-size: 28px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .album-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .search-form {
+            flex-direction: column;
+        }
     }
 </style>
 
-<h1>Albums</h1>
+<script>
+    let deleteAlbumId = null;
 
-<div>
-    <table class="album-item">
-        <tr>
-            <th>Image</th>
-            <th>Title</th>
-            <th>Artist</th>
-            <th>Release Date</th>
-        </tr>
+    function openDeleteModal(albumId, albumTitle) {
+        deleteAlbumId = albumId;
+        document.getElementById('albumTitle').textContent = albumTitle;
+        document.getElementById('deleteForm').action = `/albums/${albumId}/delete/`;
+        document.getElementById('deleteModal').style.display = 'grid';
+    }
 
-        {% for album in album_list %}
-        <tr>
-            <td class="cover-cell">
-                {% if album.cover_image %}
-                    <img 
-                        class="img-placeholder"
-                        src="{{ album.cover_image.url }}"
-                        title="{{ album.title }} album cover"
-                        alt="{{ album.title }}"
-                        width="200"
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').style.display = 'none';
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('deleteModal')?.addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeDeleteModal();
+        }
+    });
+</script>
+
+{% endblock %}
                     >
                 {% else %}
                     <img 

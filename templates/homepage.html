@@ -1,40 +1,242 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %} Home | Music Collectors Catalogue {% endblock %}
 
 {% block content %}
-<header>
-  {% load static %}
-  <div id="pgc-1397-2-0" class="panel-grid-cell">
-      <div id="homepage-wallpaper" data-index="2">
-      <div class="head-img-container">
-          <img src="{% static 'images/wall.jpg' %}" title="Music collection homepage wallpaper.">
-      </div>
-  </div>
-  <div class="head-text-overlay">
-      <h1>Music Collectors Catalogue</h1>
-  </div>
-  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-
-</header>
-
-<hr>
-
-{% if user.is_authenticated %}
-
-<form action="{% url 'logout' %}" method="post">
-  {% csrf_token %}
-    <div class="auth-button btn-primary">
-      <button type="submit">Log Out</button>
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero__content">
+        <div class="hero__text">
+            <h1 class="hero__title">The Catalogue</h1>
+            <p class="hero__subtitle">Your digital vinyl collection awaits</p>
+            <p class="hero__description">Browse albums and artists from your favorite record collection</p>
+        </div>
+        <div class="hero__image">
+            <img 
+                src="{% static 'images/vinyl-hero.png' %}" 
+                alt="Vinyl record"
+                class="hero__img">
+        </div>
     </div>
-  </form>
+</section>
 
-  {% else %}
-  <div class="auth-button btn-primary">
-    <button>
-      <a href="{% url 'login' %}">Log In</a>
-    </button>
-  </div>
-  {% endif %}
+<!-- Search Section -->
+<section class="search-section">
+    <div class="search-container">
+        <h2>Search Your Collection</h2>
+        <form method="get" action="{% url 'albums' %}" class="search-form">
+            <div class="search-input-group">
+                <input 
+                    type="text" 
+                    name="q" 
+                    placeholder="Search albums, artists, genres..."
+                    class="search-input"
+                    value="{{ request.GET.q }}">
+                <button type="submit" class="btn btn--primary">Search</button>
+            </div>
+        </form>
+    </div>
+</section>
 
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="cta-grid">
+        <div class="cta-card">
+            <div class="cta-card__icon">💿</div>
+            <h3>Browse Albums</h3>
+            <p>Explore your entire album collection organized by artist, genre, and release date</p>
+            <a href="{% url 'albums' %}" class="btn btn--primary">Explore Albums</a>
+        </div>
+        <div class="cta-card">
+            <div class="cta-card__icon">🎤</div>
+            <h3>Discover Artists</h3>
+            <p>Learn more about your favorite artists and see all their albums in one place</p>
+            <a href="{% url 'artists' %}" class="btn btn--primary">View Artists</a>
+        </div>
+        {% if user.is_authenticated %}
+        <div class="cta-card">
+            <div class="cta-card__icon">➕</div>
+            <h3>Add to Collection</h3>
+            <p>Admin users can add new albums and artists to grow the catalogue</p>
+            <div class="cta-card__buttons">
+                <a href="{% url 'add-album' %}" class="btn btn--secondary">Add Album</a>
+                <a href="{% url 'add-artist' %}" class="btn btn--secondary">Add Artist</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<style>
+    /* Hero Section */
+    .hero {
+        margin: 60px 0 80px;
+    }
+
+    .hero__content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+    }
+
+    .hero__title {
+        margin: 0 0 16px;
+        font-size: 64px;
+        font-weight: 900;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+        background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .hero__subtitle {
+        margin: 0 0 12px;
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+    }
+
+    .hero__description {
+        margin: 0;
+        font-size: 16px;
+        color: var(--muted);
+        line-height: 1.6;
+    }
+
+    .hero__image {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 500px;
+    }
+
+    .hero__img {
+        max-width: 100%;
+        height: 100%;
+        object-fit: contain;
+        filter: drop-shadow(0 40px 80px rgba(255, 106, 26, 0.15));
+    }
+
+    /* Search Section */
+    .search-section {
+        background: linear-gradient(135deg, rgba(255, 106, 26, 0.08), rgba(255, 177, 74, 0.05));
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 48px 32px;
+        margin: 40px 0 60px;
+    }
+
+    .search-container h2 {
+        margin: 0 0 24px;
+        font-size: 28px;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    .search-form {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .search-input-group {
+        display: flex;
+        gap: 12px;
+    }
+
+    .search-input {
+        flex: 1;
+        padding: 12px 16px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        color: var(--text);
+        font-size: 16px;
+        font-family: inherit;
+    }
+
+    .search-input:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px rgba(255, 106, 26, 0.12);
+    }
+
+    /* CTA Section */
+    .cta-section {
+        margin: 60px 0;
+    }
+
+    .cta-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 24px;
+    }
+
+    .cta-card {
+        padding: 32px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+        transition: all 0.3s ease;
+    }
+
+    .cta-card:hover {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px rgba(255, 106, 26, 0.12);
+        transform: translateY(-2px);
+    }
+
+    .cta-card__icon {
+        font-size: 48px;
+        margin-bottom: 16px;
+    }
+
+    .cta-card h3 {
+        margin: 0 0 12px;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .cta-card p {
+        margin: 0 0 20px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .cta-card__buttons {
+        display: flex;
+        gap: 12px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .hero__content {
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        .hero__title {
+            font-size: 40px;
+        }
+
+        .hero__image {
+            height: 300px;
+        }
+
+        .search-section {
+            padding: 32px 24px;
+        }
+
+        .search-input-group {
+            flex-direction: column;
+        }
+    }
+</style>
 {% endblock %}

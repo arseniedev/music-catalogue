@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Delete Artist | Music Collectors Catalogue {% endblock %}
+
+{% block content %}
+
+<div class="delete-page">
+    <div class="delete-page__header">
+        <a href="{% url 'artist-details' artist.id %}" class="breadcrumb">← Back to Artist</a>
+    </div>
+
+    <div class="delete-container">
+        <div class="delete-warning">
+            <div style="font-size: 64px; margin-bottom: 20px; color: #ff4040;">⚠️</div>
+            <h1>Delete Artist</h1>
+            <p>Are you sure you want to delete this artist?</p>
+        </div>
+
+        {% if linked_albums > 0 %}
+        <div class="delete-blocked">
+            <div style="font-size: 48px; margin-bottom: 12px;">🚫</div>
+            <h2>Cannot Delete Artist</h2>
+            <p>This artist has <strong>{{ linked_albums }}</strong> album(s) linked to it.</p>
+            <p>Please remove or reassign these albums before you can delete this artist.</p>
+            <a href="{% url 'artist-details' artist.id %}" class="btn btn--ghost" style="width: 100%; text-align: center; margin-top: 20px;">Back to Artist</a>
+        </div>
+        {% else %}
+        <div class="artist-preview">
+            <div class="artist-preview__icon">🎤</div>
+            <div class="artist-preview__info">
+                <h2>{{ artist.name }}</h2>
+                <p class="country">{{ artist.country }}</p>
+            </div>
+        </div>
+
+        <div class="delete-warning__text">
+            <p>This action <strong>cannot be undone</strong>. Please make sure you want to permanently delete this artist from your catalogue.</p>
+        </div>
+
+        <div class="delete-actions">
+            <a href="{% url 'artist-details' artist.id %}" class="btn btn--ghost">Cancel</a>
+            <form method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn--danger">Delete Artist</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .delete-page {
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    .delete-page__header {
+        margin-bottom: 40px;
+    }
+
+    .breadcrumb {
+        font-size: 14px;
+        color: var(--muted);
+        font-weight: 600;
+        transition: color 0.2s ease;
+    }
+
+    .breadcrumb:hover {
+        color: var(--accent);
+    }
+
+    .delete-container {
+        border: 2px solid rgba(255, 64, 64, 0.35);
+        border-radius: var(--radius-sm);
+        padding: 40px;
+        background: linear-gradient(180deg, rgba(255, 64, 64, 0.05), rgba(255, 64, 64, 0.02));
+    }
+
+    .delete-warning {
+        text-align: center;
+        margin-bottom: 32px;
+        padding-bottom: 32px;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .delete-warning h1 {
+        margin: 0 0 12px;
+        font-size: 32px;
+        font-weight: 900;
+    }
+
+    .delete-warning p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 16px;
+    }
+
+    .delete-blocked {
+        text-align: center;
+        padding: 32px;
+        border: 1px solid rgba(255, 64, 64, 0.2);
+        border-radius: 8px;
+        background: rgba(255, 64, 64, 0.05);
+    }
+
+    .delete-blocked h2 {
+        margin: 0 0 12px;
+        font-size: 22px;
+        font-weight: 700;
+    }
+
+    .delete-blocked p {
+        margin: 0 0 12px;
+        color: var(--muted);
+        font-size: 14px;
+    }
+
+    .artist-preview {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        margin-bottom: 32px;
+        padding: 20px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+    }
+
+    .artist-preview__icon {
+        font-size: 48px;
+        flex-shrink: 0;
+    }
+
+    .artist-preview__info {
+        flex: 1;
+    }
+
+    .artist-preview__info h2 {
+        margin: 0 0 8px;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .artist-preview__info .country {
+        margin: 0;
+        font-size: 14px;
+        color: var(--muted);
+    }
+
+    .delete-warning__text {
+        background: rgba(255, 64, 64, 0.1);
+        border: 1px solid rgba(255, 64, 64, 0.2);
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 32px;
+    }
+
+    .delete-warning__text p {
+        margin: 0;
+        font-size: 14px;
+        color: var(--muted);
+        line-height: 1.6;
+    }
+
+    .delete-actions {
+        display: flex;
+        gap: 12px;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+        .delete-container {
+            padding: 24px;
+        }
+
+        .delete-warning h1 {
+            font-size: 24px;
+        }
+
+        .delete-actions {
+            flex-direction: column;
+        }
+
+        .delete-actions .btn {
+            width: 100%;
+        }
+    }
+</style>
+
+{% endblock %}

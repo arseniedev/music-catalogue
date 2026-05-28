@@ -1,10 +1,286 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %} {{artist.name}} | Music Collecotrs Catalogue {% endblock %}
+{% block title %} {{ artist.name }} | Music Collectors Catalogue {% endblock %}
 
 {% block content %}
-    <h1>{{artist.name}}</h1>
-    <p>ID: {{artist.id}}</p>
-    <p>Name: {{artist.name}}</p>
-    <p>Albums: Albums</p>
+
+<div class="artist-detail-header">
+    <a href="{% url 'artists' %}" class="breadcrumb">← Back to Artists</a>
+</div>
+
+<article class="artist-detail">
+    <!-- Header Section -->
+    <div class="artist-detail__header">
+        <div class="artist-detail__icon">🎤</div>
+        <div>
+            <div class="kicker">ARTIST</div>
+            <h1 class="artist-detail__name">{{ artist.name }}</h1>
+            <p class="artist-detail__location">{{ artist.country }}</p>
+        </div>
+        
+        {% if user.is_authenticated %}
+        <div class="artist-detail__admin-actions">
+            <a href="{% url 'edit-artist' artist.id %}" class="btn btn--primary">Edit Artist</a>
+            <button type="button" class="btn btn--danger" onclick="openDeleteModal('{{ artist.name }}', {{ artist.id }})">Delete Artist</button>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Albums Section -->
+    {% if albums %}
+    <section class="artist-albums">
+        <h2 class="section-title">Albums by {{ artist.name }}</h2>
+        <div class="album-mini-grid">
+            {% for album in albums %}
+            <div class="album-mini-card">
+                <div class="album-mini-card__image">
+                    {% if album.cover_image %}
+                        <img 
+                            src="{{ album.cover_image.url }}"
+                            alt="{{ album.title }}"
+                            class="album-mini-card__img">
+                    {% else %}
+                        <img 
+                            src="/media/album_covers/image-placeholder.png"
+                            alt="Album cover placeholder"
+                            class="album-mini-card__img">
+                    {% endif %}
+                </div>
+                <h3 class="album-mini-card__title">{{ album.title }}</h3>
+                <p class="album-mini-card__meta">{{ album.genre|title }} • {{ album.release_date|date:"Y" }}</p>
+                <a href="{% url 'album-details' album.id %}" class="btn btn--secondary btn--sm" style="width: 100%; margin-top: 12px;">View Album</a>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% else %}
+    <div class="empty-state">
+        <p>No albums found for this artist.</p>
+    </div>
+    {% endif %}
+</article>
+
+<!-- Delete Modal -->
+<div class="modal" id="deleteModal" style="display: none;">
+    <div class="modal__backdrop" onclick="closeDeleteModal()"></div>
+    <div class="modal__panel">
+        <div class="modal__head">
+            <h2 class="modal__title">Delete Artist</h2>
+            <button type="button" class="icon-btn" onclick="closeDeleteModal()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <div class="modal__body">
+            <p>Are you sure you want to delete <strong id="artistName"></strong>? This action cannot be undone.</p>
+        </div>
+        <div class="modal__foot">
+            <button type="button" class="btn btn--ghost" onclick="closeDeleteModal()">Cancel</button>
+            <form method="post" style="display: inline;" id="deleteForm">
+                {% csrf_token %}
+                <button type="submit" class="btn btn--danger">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .artist-detail-header {
+        margin-bottom: 40px;
+    }
+
+    .breadcrumb {
+        font-size: 14px;
+        color: var(--muted);
+        font-weight: 600;
+        transition: color 0.2s ease;
+    }
+
+    .breadcrumb:hover {
+        color: var(--accent);
+    }
+
+    .kicker {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 12px;
+    }
+
+    .artist-detail {
+        margin: 40px 0 80px;
+    }
+
+    .artist-detail__header {
+        display: flex;
+        align-items: flex-start;
+        gap: 32px;
+        padding: 40px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-sm);
+        background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+        margin-bottom: 60px;
+    }
+
+    .artist-detail__icon {
+        font-size: 72px;
+        line-height: 1;
+        flex-shrink: 0;
+    }
+
+    .artist-detail__name {
+        margin: 0 0 8px;
+        font-size: 48px;
+        font-weight: 900;
+        line-height: 1.1;
+        letter-spacing: -0.01em;
+    }
+
+    .artist-detail__location {
+        margin: 0;
+        font-size: 18px;
+        color: var(--muted);
+        font-weight: 500;
+    }
+
+    .artist-detail__admin-actions {
+        display: flex;
+        gap: 12px;
+        margin-left: auto;
+        flex-shrink: 0;
+    }
+
+    /* Albums Section */
+    .artist-albums {
+        margin: 60px 0;
+    }
+
+    .section-title {
+        margin: 0 0 32px;
+        font-size: 28px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: -0.01em;
+    }
+
+    .album-mini-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 24px;
+    }
+
+    .album-mini-card {
+        display: flex;
+        flex-direction: column;
+        border-radius: var(--radius-sm);
+        overflow: hidden;
+        border: 1px solid var(--line);
+        background: var(--panel);
+        transition: all 0.3s ease;
+    }
+
+    .album-mini-card:hover {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px rgba(255, 106, 26, 0.12);
+    }
+
+    .album-mini-card__image {
+        width: 100%;
+        aspect-ratio: 1;
+        overflow: hidden;
+        background: var(--panel-2);
+    }
+
+    .album-mini-card__img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .album-mini-card__title {
+        margin: 16px 16px 6px;
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    .album-mini-card__meta {
+        margin: 0 16px 16px;
+        font-size: 12px;
+        color: var(--muted);
+    }
+
+    .btn--sm {
+        padding: 8px 12px;
+        font-size: 12px;
+        margin: 0 16px 16px;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--muted);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .artist-detail__header {
+            flex-direction: column;
+            padding: 24px;
+        }
+
+        .artist-detail__icon {
+            font-size: 48px;
+        }
+
+        .artist-detail__name {
+            font-size: 32px;
+        }
+
+        .artist-detail__admin-actions {
+            width: 100%;
+            margin-left: 0;
+            flex-direction: column;
+        }
+
+        .album-mini-grid {
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .album-mini-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .artist-detail__name {
+            font-size: 24px;
+        }
+    }
+</style>
+
+<script>
+    function openDeleteModal(artistName, artistId) {
+        document.getElementById('artistName').textContent = artistName;
+        document.getElementById('deleteForm').action = `/artist/${artistId}/delete/`;
+        document.getElementById('deleteModal').style.display = 'grid';
+    }
+
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').style.display = 'none';
+    }
+
+    document.getElementById('deleteModal')?.addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeDeleteModal();
+        }
+    });
+</script>
+
 {% endblock %}

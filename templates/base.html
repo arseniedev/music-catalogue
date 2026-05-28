@@ -13,24 +13,135 @@
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="{% static '/stylesheet.css' %}">
-
 </head>
 <body>
-    <nav>
-        <div>
-            <a href="{% url 'homepage' %}"><img id="catalogue-logo" src="{% static 'images/home-logo.png' %}" title="
-                Muzički trezor logo"></a>
+    <header class="site-header">
+        <nav class="nav">
+            <!-- Brand -->
+            <a href="{% url 'homepage' %}" class="brand">
+                <img 
+                    class="brand__mark" 
+                    src="{% static 'images/vinyl-flat-icon.png' %}" 
+                    alt="Music Collectors Logo"
+                    width="48"
+                    height="48">
+                <div class="brand__text">
+                    <div>Music Collectors</div>
+                    <div>Catalogue</div>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <div class="nav__cluster nav__cluster--desktop">
+                <a href="{% url 'homepage' %}" class="navlink">Home</a>
+                <a href="{% url 'albums' %}" class="navlink">Albums</a>
+                <a href="{% url 'artists' %}" class="navlink">Artists</a>
+            </div>
+
+            <!-- Right side cluster -->
+            <div class="nav__right">
+                <!-- Theme toggle -->
+                <button class="icon-btn" id="theme-toggle" aria-label="Toggle theme">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+
+                <!-- Auth button -->
+                <div class="nav__cluster nav__cluster--desktop">
+                    {% if user.is_authenticated %}
+                        <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn--ghost">Logout</button>
+                        </form>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn--ghost">Admin Login</a>
+                    {% endif %}
+                </div>
+
+                <!-- Mobile hamburger -->
+                <button class="nav__burger" id="mobile-burger" aria-label="Toggle menu">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobile-menu" style="display: none;">
+            <div class="mobile-menu__inner">
+                <a href="{% url 'homepage' %}" class="mobile-item">
+                    <div class="mobile-item__icon">🏠</div>
+                    <div class="mobile-item__label">Home</div>
+                </a>
+                <a href="{% url 'albums' %}" class="mobile-item">
+                    <div class="mobile-item__icon">💿</div>
+                    <div class="mobile-item__label">Albums</div>
+                </a>
+                <a href="{% url 'artists' %}" class="mobile-item">
+                    <div class="mobile-item__icon">🎤</div>
+                    <div class="mobile-item__label">Artists</div>
+                </a>
+                <div class="mobile-item mobile-item--auth">
+                    {% if user.is_authenticated %}
+                        <form action="{% url 'logout' %}" method="post" style="width: 100%;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn--ghost" style="width: 100%;">Logout</button>
+                        </form>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn--ghost" style="width: 100%;">Admin Login</a>
+                    {% endif %}
+                </div>
+            </div>
         </div>
-        <ul>
-            <li><a href="{% url 'homepage' %}">Home</a></li>
-            <li><a href="{% url 'albums' %}">Albums</a></li>
-            <li><a href="{% url 'artists' %}">Artists</a></li>
-        </ul>
-    </nav>
+    </header>
 
     <main class="container">
         {% block content %}
         {% endblock %}
     </main>
+
+    <script>
+        // Theme toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement;
+
+        // Load saved theme or default to dark
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        htmlElement.setAttribute('data-theme', savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // Mobile menu toggle
+        const mobileBurger = document.getElementById('mobile-burger');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileBurger.addEventListener('click', () => {
+            mobileMenu.style.display = mobileMenu.style.display === 'none' ? 'block' : 'none';
+        });
+
+        // Close mobile menu when link is clicked
+        document.querySelectorAll('.mobile-item').forEach(item => {
+            item.addEventListener('click', () => {
+                mobileMenu.style.display = 'none';
+            });
+        });
+    </script>
 </body>
 </html>

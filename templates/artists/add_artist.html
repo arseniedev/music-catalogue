@@ -1,27 +1,225 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %} Artist | Music Collectors Catalogue {% endblock %}
+{% block title %} Add Artist | Music Collectors Catalogue {% endblock %}
 
 {% block content %}
-    <center>
-        <h1>Add Artist to Database</h1>
-        <br/>
-        <br/>
 
-        {% if submitted %}
-            Your Artist is added successfully!!!
+<div class="form-page">
+    <div class="form-page__header">
+        <a href="{% url 'artists' %}" class="breadcrumb">← Back to Artists</a>
+    </div>
 
-        {% else %}
-            <form action="" method="POST">
-                {% csrf_token %}
+    {% if submitted %}
+    <div class="success-message">
+        <div class="success-message__content">
+            <div style="font-size: 48px; margin-bottom: 16px;">✓</div>
+            <h2>Artist Added Successfully!</h2>
+            <p>Your artist has been added to the catalogue.</p>
+            <a href="{% url 'artists' %}" class="btn btn--primary">Back to Artists</a>
+        </div>
+    </div>
+    {% else %}
+    <div class="form-container">
+        <div class="form-header">
+            <div class="kicker">ADMIN</div>
+            <h1>Add Artist to Catalogue</h1>
+            <p>Fill in the details below to add a new artist to your collection.</p>
+        </div>
 
-                {{form.as_p}}
+        <form class="form" method="POST">
+            {% csrf_token %}
+            
+            <fieldset class="form__fieldset">
+                <legend>Artist Information</legend>
+                {{ form.name }}
+                {{ form.country }}
+            </fieldset>
 
-                <div class="btn-primary">
-                    <input type="submit" value="Submit" class="submit-artist-form">
-                </div>
+            <div class="form__actions">
+                <a href="{% url 'artists' %}" class="btn btn--ghost">Cancel</a>
+                <button type="submit" class="btn btn--primary">Add Artist</button>
+            </div>
+        </form>
+    </div>
+    {% endif %}
+</div>
 
-            </form>
-        {% endif %}
-    </center>
+<style>
+    .form-page {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    .form-page__header {
+        margin-bottom: 40px;
+    }
+
+    .breadcrumb {
+        font-size: 14px;
+        color: var(--muted);
+        font-weight: 600;
+        transition: color 0.2s ease;
+    }
+
+    .breadcrumb:hover {
+        color: var(--accent);
+    }
+
+    .success-message {
+        display: grid;
+        place-items: center;
+        min-height: 400px;
+    }
+
+    .success-message__content {
+        text-align: center;
+        padding: 40px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-sm);
+        background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+    }
+
+    .success-message__content h2 {
+        margin: 0 0 12px;
+        font-size: 28px;
+        font-weight: 700;
+    }
+
+    .success-message__content p {
+        margin: 0 0 24px;
+        color: var(--muted);
+    }
+
+    .form-container {
+        border: 1px solid var(--line);
+        border-radius: var(--radius-sm);
+        padding: 40px;
+        background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+    }
+
+    .form-header {
+        margin-bottom: 40px;
+        padding-bottom: 32px;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .kicker {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 12px;
+    }
+
+    .form-header h1 {
+        margin: 0 0 12px;
+        font-size: 32px;
+        font-weight: 900;
+    }
+
+    .form-header p {
+        margin: 0;
+        font-size: 14px;
+        color: var(--muted);
+    }
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+    }
+
+    .form__fieldset {
+        border: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .form__fieldset legend {
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+        margin-bottom: 8px;
+        padding: 0;
+    }
+
+    /* Form controls */
+    .form p {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin: 0;
+    }
+
+    .form label {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text);
+    }
+
+    .form input[type="text"],
+    .form input[type="email"],
+    .form select,
+    .form textarea {
+        padding: 12px 14px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        color: var(--text);
+        font-family: inherit;
+        font-size: 14px;
+        transition: all 0.2s ease;
+    }
+
+    .form input[type="text"]:focus,
+    .form input[type="email"]:focus,
+    .form select:focus,
+    .form textarea:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px rgba(255, 106, 26, 0.12);
+    }
+
+    .form textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+
+    .form__actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+        padding-top: 24px;
+        border-top: 1px solid var(--line);
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+        .form-container {
+            padding: 24px;
+        }
+
+        .form-header h1 {
+            font-size: 24px;
+        }
+
+        .form__actions {
+            flex-direction: column;
+        }
+
+        .form__actions .btn {
+            width: 100%;
+        }
+    }
+</style>
+
 {% endblock %}
