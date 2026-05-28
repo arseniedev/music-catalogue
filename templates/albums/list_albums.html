@@ -1,30 +1,83 @@
 {% extends "base.html" %}
 
-{% block title %} {{page_title}} | Music Collecotrs Catalogue {% endblock %}
+{% block title %} {{page_title}} | Music Collectors Catalogue {% endblock %}
 
 {% block content %}
-    <h1>Albums</h1>
-    <div id="album-container">
-        <ul>
-            {% for album in album_list %}
-                <li class="album-item">
-                    <img class="img-placeholder" src="" title="Album cover placeholder.">
-                    <a href="{{album.id}}/">{{ album.name}}</a>
-                </li>
-            {% empty %}
-                <p>No albums found.</p>
-            {% endfor %}
-        </ul>
-    </div>
 
-    {% if user.is_authenticated %}
-    <!-- Hi {{ user.username }}! -->
-    <div class="btn-primary">
-        <button>
-            <a class="add-album" href="{% url 'add-album' %}">Add Album</a>
-        </button>
-    </div>
-    {% else %}
-    
-    {% endif %}
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    td, th {
+        padding: 10px;
+        border: 1px solid #ccc;
+    }
+
+    .cover-cell {
+        width: 120px;
+    }
+
+    .img-placeholder {
+        width: 100%;
+        height: auto;
+        display: block;
+        object-fit: cover;
+    }
+</style>
+
+<h1>Albums</h1>
+
+<div>
+    <table class="album-item">
+        <tr>
+            <th>Image</th>
+            <th>Album Name</th>
+            <th>Artist</th>
+            <th>Release Date</th>
+        </tr>
+
+        {% for album in album_list %}
+        <tr>
+            <td class="cover-cell">
+                <img 
+                    class="img-placeholder"
+                    src=""
+                    title="Album cover placeholder."
+                    alt="{{ album.name }}"
+                >
+            </td>
+
+            <td>
+                <a href="{{ album.id }}/">{{ album.name }}</a>
+            </td>
+
+            <td>
+                <a href="{{ album.id }}/">{{ album.artist.name }}</a>
+            </td>
+
+            <td>
+                <a href="{{ album.id }}/">{{ album.release_date }}</a>
+            </td>
+        </tr>
+
+        {% empty %}
+        <tr>
+            <td colspan="4">No albums found.</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% if user.is_authenticated %}
+<div class="btn-primary">
+    <button>
+        <a class="add-album" href="{% url 'add-album' %}">
+            Add Album
+        </a>
+    </button>
+</div>
+{% endif %}
+
 {% endblock %}
