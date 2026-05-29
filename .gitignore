@@ -1,1 +1,30 @@
-node_modules
+# Byte-compiled / optimized / DLL files
+__pycache__/
+**/*/__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+db.sqlite3
+
+# Environments
+.env
+.venv/
+env/
+venv/
+ENV/
+
+# Database
+db.sqlite3
+db.sqlite3-journal
+
+# Media and Static
+media/
+static/
+!static/README.md  # Keep a placeholder if needed
+staticfiles/
+
+# Local development settings
+local_settings.py
+
+# Logs and databases
+*.log
