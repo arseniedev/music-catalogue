@@ -15,16 +15,16 @@ class AlbumForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        current_year = datetime.now().year
+        # current_year = datetime.now().year
 
-        YEAR_CHOICES = [
-            (year, year)
-            for year in range(current_year, 1949, -1)
-        ]
+        # YEAR_CHOICES = [
+        #     (year, year)
+        #     for year in range(current_year, 1949, -1)
+        # ]
 
-        self.fields["release_year"].widget = forms.Select(
-            choices=[("", "Select Year")] + YEAR_CHOICES
-        )
+        # self.fields["release_year"].widget = forms.Select(
+        #     choices=[("", "Select Year")] + YEAR_CHOICES
+        # )
 
         if self.initial.get("artist"):
             self.fields["artist"].disabled = True
