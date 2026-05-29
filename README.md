@@ -59,26 +59,42 @@
 ---
 
 ## Project Structure
-
-```
-music-catalogue/
-├── catalogue/              # Main Django app
-│   ├── migrations/         # Database migrations
-│   ├── templates/          # HTML templates
-│   ├── static/             # CSS, JS, images
-│   ├── models.py           # Album & Song data models
-│   ├── views.py            # Page logic and CRUD handlers
-│   ├── urls.py             # App URL routing
-│   └── admin.py            # Admin panel config
-├── music_catalogue/        # Django project config
-│   ├── settings.py
-│   ├── urls.py
-│   └── wsgi.py
-├── docs/
-│   └── snapshots/          # README screenshots
+<!-- START_STRUCTURE -->
+```text
+.
+├── README.md
+├── app
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── forms.py
+│   ├── migrations
+│   ├── models.py
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+├── docs
+│   └── snapshots
+├── manage.py
+├── music_catalogue
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
 ├── requirements.txt
-└── manage.py
+├── structure.txt
+└── templates
+    ├── albums
+    ├── artists
+    ├── base.html
+    ├── homepage.html
+    ├── nav.html
+    └── registration
+
+10 directories, 20 files
 ```
+<!-- END_STRUCTURE -->
 
 ---
 
