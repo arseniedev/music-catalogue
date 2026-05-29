@@ -119,17 +119,14 @@
         flex: 1;
         padding: 10px 14px;
         border: 1px solid var(--line);
-        border-radius: 8px;
-        {% comment %} background: var(--panel); {% endcomment %}
         font-size: 0.8rem;
-        font-family: inherit;
     }
 
     .search-input:focus {
         outline: none;
         border-color: var(--accent);
         box-shadow: 0 0 0 4px var(--ring-2);
-        color: #fffff;
+        color:rgb(0, 0, 0);
     }
 
     /* Album Grid */
@@ -143,7 +140,7 @@
     .album-card {
         display: flex;
         flex-direction: column;
-        border-radius: var(--radius-md);
+        {% comment %} border-radius: var(--radius-md); {% endcomment %}
         overflow: hidden;
         border: 1px solid var(--line);
         padding: 2em;
