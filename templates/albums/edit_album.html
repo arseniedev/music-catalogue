@@ -24,7 +24,13 @@
                 <legend>Album Information</legend>
                 {{ form.title }}
                 {{ form.artist }}
-                {{ form.release_year }}
+                {% comment %} {{ form.release_year }} {% endcomment %}
+                {% comment %} <label for "release_year">Release Year</label>
+                {{ form.release_year.as_hidden }}
+            
+                <ul id="scroll-picker">
+                    <li class="year"></li>
+                </ul> {% endcomment %}
             </fieldset>
 
             <fieldset class="form__fieldset">
