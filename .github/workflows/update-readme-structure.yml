@@ -7,7 +7,6 @@ on:
       - 'docs/**'
       - 'assets/**'
     branches:
-      - dev
       - main
 
 jobs:
