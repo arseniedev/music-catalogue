@@ -38,31 +38,33 @@
 {% if album_list %}
 <div class="album-grid">
     {% for album in album_list %}
-    <div class="album-card">
-        <div class="album-card__image">
-            {% if album.cover_image %}
-                <img 
-                    src="{{ album.cover_image.url }}"
-                    alt="{{ album.title }}"
-                    class="album-card__img">
-                {% else %}
-                <img 
-                    src="/media/album_covers/album-placeholder.png"
-                    alt="Album cover placeholder"
-                    class="album-card__img">
-                {% endif %}
-                <div class="album-card__overlay">
-                    <a href="{% url 'album-details' album.id %}" class="btn--view-details btn--sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#D9D9D9"><path d="M200-120q-33 0-56.5-23.5T120-200v-160h80v160h160v80H200Zm400 0v-80h160v-160h80v160q0 33-23.5 56.5T760-120H600ZM120-600v-160q0-33 23.5-56.5T200-840h160v80H200v160h-80Zm640 0v-160H600v-80h160q33 0 56.5 23.5T840-760v160h-80Z"/></svg>
-                    </a>
+    <a href="{% url 'album-details' album.id %}" class="btn--view-details btn--sm">
+        <div class="album-card">
+            <div class="album-card__image">
+                {% if album.cover_image %}
+                    <img 
+                        src="{{ album.cover_image.url }}"
+                        alt="{{ album.title }}"
+                        class="album-card__img">
+                    {% else %}
+                    <img 
+                        src="/media/album_covers/album-placeholder.png"
+                        alt="Album cover placeholder"
+                        class="album-card__img">
+                    {% endif %}
+                    {% comment %} <div class="album-card__overlay">
+                        <a href="{% url 'album-details' album.id %}" class="btn--view-details btn--sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#D9D9D9"><path d="M200-120q-33 0-56.5-23.5T120-200v-160h80v160h160v80H200Zm400 0v-80h160v-160h80v160q0 33-23.5 56.5T760-120H600ZM120-600v-160q0-33 23.5-56.5T200-840h160v80H200v160h-80Zm640 0v-160H600v-80h160q33 0 56.5 23.5T840-760v160h-80Z"/></svg>
+                        </a>
+                    </div> {% endcomment %}
                 </div>
-            </div>
-            <div class="album-card__content">
-                <h3 class="album-card__title">{{ album.title }}</h3>
-                <p class="album-card__artist">{{ album.artist.name|default:"Unknown Artist" }}</p>
-                <p class="album-card__meta">{{ album.genre|title }} • {{ album.release_date|date:"Y" }}</p>
-            </div>
-    </div>
+                <div class="album-card__content">
+                    <h3 class="album-card__title">{{ album.title }}</h3>
+                    <p class="album-card__artist">{{ album.artist.name|default:"Unknown Artist" }}</p>
+                    <p class="album-card__meta">{{ album.genre|title }} • {{ album.release_date|date:"Y" }}</p>
+                </div>
+        </div>
+    </a>
     {% endfor %}
 </div>
 {% else %}

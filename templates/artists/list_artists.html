@@ -20,23 +20,25 @@
 {% if artist_list %}
 <div class="artist-grid">
     {% for artist in artist_list %}
-    <div class="artist-card">
-        <div class="artist-card__header">
-            <div class="artist-card__icon sedgwick-ave-display-regular">ARTIST</div>
-            <a href="{% url 'artist-details' artist.id %}" class=" btn--view-details btn--sm" style=" 16px;"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M200-120q-33 0-56.5-23.5T120-200v-160h80v160h160v80H200Zm400 0v-80h160v-160h80v160q0 33-23.5 56.5T760-120H600ZM120-600v-160q0-33 23.5-56.5T200-840h160v80H200v160h-80Zm640 0v-160H600v-80h160q33 0 56.5 23.5T840-760v160h-80Z"/></svg></a>
-        </div>
-        <div class="artist-card__content">
-            <h3 class="artist-card__name">{{ artist.name }}</h3>
-            <p class="artist-card__country">{{ artist.country }}</p>
-            
-            {% if user.is_authenticated %}
-            <div class="artist-card__actions">
-                <a href="{% url 'edit-artist' artist.id %}" class="btn btn--secondary btn--sm">Edit</a>
-                <button type="button" class="btn btn--danger btn--sm" onclick="openDeleteModal({{ artist.id }}, '{{ artist.name }}')">Delete</button>
+    <a href="{% url 'artist-details' artist.id %}" class=" btn--view-details btn--sm" style=" 16px;">
+        <div class="artist-card">
+            <div class="artist-card__header">
+                <div class="artist-card__icon sedgwick-ave-display-regular">ARTIST</div>
+                    {% comment %} <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M200-120q-33 0-56.5-23.5T120-200v-160h80v160h160v80H200Zm400 0v-80h160v-160h80v160q0 33-23.5 56.5T760-120H600ZM120-600v-160q0-33 23.5-56.5T200-840h160v80H200v160h-80Zm640 0v-160H600v-80h160q33 0 56.5 23.5T840-760v160h-80Z"/></svg> {% endcomment %}
             </div>
-            {% endif %}
+            <div class="artist-card__content">
+                <h3 class="artist-card__name">{{ artist.name }}</h3>
+                <p class="artist-card__country">{{ artist.country }}</p>
+                
+                {% comment %} {% if user.is_authenticated %}
+                <div class="artist-card__actions">
+                    <a href="{% url 'edit-artist' artist.id %}" class="btn btn--secondary btn--sm">Edit</a>
+                    <button type="button" class="btn btn--danger btn--sm" onclick="openDeleteModal({{ artist.id }}, '{{ artist.name }}')">Delete</button>
+                </div>
+                {% endif %} {% endcomment %}
+            </div>
         </div>
-    </div>
+    </a>
     {% endfor %}
 </div>
 {% else %}

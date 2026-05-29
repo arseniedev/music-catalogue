@@ -36,29 +36,29 @@
         <h2 class="section-title">Albums by {{ artist.name }}</h2>
         <div class="album-mini-grid">
             {% for album in albums %}
-            <div class="album-mini-card">
-                <div class="album-mini-card__image">
-                    {% if album.cover_image %}
-                    
-                        <img 
-                            src="{{ album.cover_image.url }}"
-                            alt="{{ album.title }}"
-                            class="album-mini-card__img">
+            <a href="{% url 'album-details' album.id %}">
+                <div class="album-mini-card">
+                    <div class="album-mini-card__image">
+                        {% if album.cover_image %}
                         
-                    {% else %}
-                        <img 
-                            src="/media/image-placeholder.png"
-                            alt="Album cover placeholder"
-                            class="album-mini-card__img">
-                    {% endif %}
-                    
+                            <img 
+                                src="{{ album.cover_image.url }}"
+                                alt="{{ album.title }}"
+                                class="album-mini-card__img">
+                            
+                        {% else %}
+                            <img 
+                                src="/media/image-placeholder.png"
+                                alt="Album cover placeholder"
+                                class="album-mini-card__img">
+                        {% endif %}
+                        
+                        </div>
                     </div>
+                    <h3 class="album-mini-card__title">{{ album.title }}</h3>
+                    <p class="album-mini-card__meta">{{ album.genre|title }} • {{ album.release_date|date:"Y" }}</p>
                 </div>
-                <a href="{% url 'album-details' album.id %}">
-                <h3 class="album-mini-card__title">{{ album.title }}</h3>
-                <p class="album-mini-card__meta">{{ album.genre|title }} • {{ album.release_date|date:"Y" }}</p>
-                </a>
-            </div>
+            </a>
             {% endfor %}
         </div>
     </section>
@@ -144,9 +144,9 @@
 
     .artist-detail__name {
         margin: 0 0 8px;
-        font-size: 48px;
-        font-weight: 900;
-        line-height: 1.1;
+        font-size: 2.5rem;
+        font-weight: 800;
+        line-height: 1;
         letter-spacing: -0.01em;
     }
 
@@ -192,6 +192,7 @@
         border: 1px solid var(--line);
         background: var(--panel);
         transition: all 0.3s ease;
+        width: 80%;
     }
 
     .album-mini-card:hover {
@@ -262,7 +263,7 @@
         }
 
         .artist-detail__name {
-            font-size: 32px;
+            {% comment %} font-size: 32px; {% endcomment %}
         }
 
         .artist-detail__admin-actions {
@@ -283,7 +284,7 @@
         }
 
         .artist-detail__name {
-            font-size: 24px;
+            {% comment %} font-size: 24px; {% endcomment %}
         }
     }
     .btn-charge {
