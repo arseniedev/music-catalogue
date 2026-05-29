@@ -4,7 +4,7 @@
 {% block title %} Edit Album | Music Collectors Catalogue {% endblock %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/add-album.css' %}">
+    <link rel="stylesheet" href="{% static 'css/scroll-picker.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -28,7 +28,6 @@
                 <legend>Album Information</legend>
                 {{ form.title }}
                 {{ form.artist }}
-                {% comment %} {{ form.release_year }} {% endcomment %}
                 <label for "release_year">Release Year</label>
                 {{ form.release_year.as_hidden }}
             
