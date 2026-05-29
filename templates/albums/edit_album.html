@@ -3,6 +3,10 @@
 
 {% block title %} Edit Album | Music Collectors Catalogue {% endblock %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/add-album.css' %}">
+{% endblock %}
+
 {% block content %}
 
 <div class="form-page">
@@ -25,12 +29,12 @@
                 {{ form.title }}
                 {{ form.artist }}
                 {% comment %} {{ form.release_year }} {% endcomment %}
-                {% comment %} <label for "release_year">Release Year</label>
+                <label for "release_year">Release Year</label>
                 {{ form.release_year.as_hidden }}
             
                 <ul id="scroll-picker">
                     <li class="year"></li>
-                </ul> {% endcomment %}
+                </ul>
             </fieldset>
 
             <fieldset class="form__fieldset">
