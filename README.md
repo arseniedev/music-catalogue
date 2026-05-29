@@ -1,4 +1,4 @@
-# ♯ Music Catalogue
+b# ♯ Music Catalogue
 
 ![Python](https://img.shields.io/badge/Python-%23007ACC.svg?style=for-the-badge&logo=python&logoColor=white)
 ![Django](https://img.shields.io/badge/Django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white)
@@ -9,8 +9,9 @@
 >
 > Music Catalogue is a web-based catalogue management app built with **Django** and **MySQL**, developed as part of the **BCDE215 - Web Development** course at Ara Institute of Canterbury. It allows users to browse a collection of music albums and songs, while providing administrators with full CRUD control over the catalogue.
 
-🔗 **Live Demo:** *(link to be added)*
+🔗 **Live Demo:** https://youtu.be/TuRtaHknz90
 &nbsp;·&nbsp;
+</br>
 📖 **[Wiki — Full Local Setup Documentation](https://github.com/arseniedev/music-catalogue/wiki)**
 
 ---
@@ -35,31 +36,102 @@
 
 ## Snapshots
 
+<details>
+  <summary>Iteration 1</summary>
+  <table>
+    <tr align="center">
+      <td>Homepage</td>
+      <td>Album Home</td>
+      <td>Artist Home</td>
+    </tr>
+    <tr align="center">
+      <td><img src="docs/snapshots/iteration-1/home.png" alt="Home page" width="420"/></td>
+      <td><img src="docs/snapshots/iteration-1/album-home.png" alt="Home page" width="420"/></td>
+      <td><img src="docs/snapshots/iteration-1/artist-home.png" alt="Home page" width="420"/></td>
+    </tr>
+    <tr>
+    <tr align="center">
+      <td>Admin Sign In</td>
+      <td>Edit Album Details</td>
+      <td>Edit Artist Details</td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="docs/snapshots/iteration-1/admin-signin.png" alt="Home page" width="420"/>
+      </td>
+      <td>
+        <img src="docs/snapshots/iteration-1/edit-album.png" alt="Edit Artist Details" width="420"/>
+      </td>
+      <td>
+        <img src="docs/snapshots/iteration-1/edit-artist.png" alt="Edit Album Details" width="420"/>
+      </td>
+    </tr>
+  </table>
+</details>
+
+### Current Iteration
 <table>
   <tr align="center">
     <td>Homepage</td>
-    <td>Album Home</td>
-    <td>Artist Home</td>
+    <td>Albums</td>
+    <td>Artists</td>
   </tr>
   <tr align="center">
-    <td><img src="docs/snapshots/home.png" alt="Home page" width="420"/></td>
-    <td><img src="docs/snapshots/album-home.png" alt="Home page" width="420"/></td>
-    <td><img src="docs/snapshots/artist-home.png" alt="Home page" width="420"/></td>
+    <td><img src="docs/snapshots/iteration-2/01-home.png" alt="Home page" width="420"/></td>
+    <td><img src="docs/snapshots/iteration-2/02-albums.png" alt="Albums page" width="420"/></td>
+    <td><img src="docs/snapshots/iteration-2/03-artists.png" alt="Artists page" width="420"/></td>
   </tr>
   <tr>
   <tr align="center">
     <td>Admin Sign In</td>
-    <td>Edit Album Details</td>
-    <td>Edit Artist Details</td>
+    <td>Add Album</td>
+    <td>Add Artist</td>
   </tr>
   <tr align="center">
-    <td><img src="docs/snapshots/admin-signin.png" alt="Home page" width="420"/></td>
-    <td><img src="docs/snapshots/edit-album.png" alt="Edit Artist Details" width="420"/></td>
-    <td><img src="docs/snapshots/edit-artist.png" alt="Edit Album Details" width="420"/></td>
+    <td>
+      <img src="docs/snapshots/iteration-2/04-admin.png" alt="Admin Page" width="420"/>
+    </td>
+    <td>
+      <img src="docs/snapshots/iteration-2/05-add-artist.png" alt="Add Artist Details" width="420"/>
+    </td>
+    <td>
+      <img src="docs/snapshots/iteration-2/06-add-album.png" alt="Add Album Details" width="420"/>
+    </td>
   </tr>
-
-  
+  <tr align="center">
+    <td>View Artist</td>
+    <td>Edit Album</td>
+    <td>View Album</td>
+  </tr>
+  <tr align="center">
+    <td>
+      <img src="docs/snapshots/iteration-2/07-view-artist-details.png" alt="View Artist Details" width="420"/>
+    </td>
+    <td>
+      <img src="docs/snapshots/iteration-2/08-edit-album.png" alt="Edit Album" width="420"/>
+    </td>
+    <td>
+      <img src="docs/snapshots/iteration-2/09-view-album-details.png" alt="View Album Details" width="420"/>
+    </td>
+  </tr>
+  <tr align="center">
+    <td>Delete Album</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
+  <tr align="center">
+    <td>
+      <img src="docs/snapshots/iteration-2/10-delete-album.png" alt="Delete Album" width="420"/>
+    </td>
+    <td>
+      <img src="docs/snapshots/iteration-2/edit-album.png" alt="Empty" width="420"/>
+    </td>
+    <td>
+      <img src="docs/snapshots/iteration-2/edit-artist.png" alt="Empty" width="420"/>
+    </td>
+  </tr>
 </table>
+
 
 ---
 
