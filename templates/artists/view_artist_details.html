@@ -12,7 +12,7 @@
 <article class="artist-detail">
     <!-- Header Section -->
     <div class="artist-detail__header">
-        <div class="artist-detail__icon">ARTIST</div>
+        {% comment %} <div class="artist-card__icon sedgwick-ave-display-regular">ARTIST</div> {% endcomment %}
         <div>
             <div class="kicker">ARTIST</div>
             <h1 class="artist-detail__name">{{ artist.name }}</h1>
@@ -21,8 +21,11 @@
         
         {% if user.is_authenticated %}
         <div class="artist-detail__admin-actions">
-            <a href="{% url 'edit-artist' artist.id %}" class="btn btn--primary">Edit Artist</a>
-            <button type="button" class="btn btn--danger" onclick="openDeleteModal('{{ artist.name }}', {{ artist.id }})">Delete Artist</button>
+            <a href="{% url 'edit-artist' artist.id %}" class="btn btn--secondary">Edit Artist</a>
+            <button class="btn-charge btn--danger" data-duration="600">
+                <div class="btn-label" onClick="openDeleteModal({{ artist.id }}, '{{ artist.name }}')" role="button">Delete Artist</div>
+                <span class="btn-progress"></span>
+            </button>
         </div>
         {% endif %}
     </div>
@@ -48,10 +51,7 @@
                             alt="Album cover placeholder"
                             class="album-mini-card__img">
                     {% endif %}
-                    <div class="album-card__overlay">
-                        <a href="{% url 'album-details' album.id %}" class="btn--view-details btn--sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#D9D9D9"><path d="M200-120q-33 0-56.5-23.5T120-200v-160h80v160h160v80H200Zm400 0v-80h160v-160h80v160q0 33-23.5 56.5T760-120H600ZM120-600v-160q0-33 23.5-56.5T200-840h160v80H200v160h-80Zm640 0v-160H600v-80h160q33 0 56.5 23.5T840-760v160h-80Z"/></svg>
-                        </a>
+                    
                     </div>
                 </div>
                 <a href="{% url 'album-details' album.id %}">
@@ -74,7 +74,7 @@
     <div class="modal__backdrop" onclick="closeDeleteModal()"></div>
     <div class="modal__panel">
         <div class="modal__head">
-            <h2 class="modal__title">Delete Artist</h2>
+            <h2 class="modal__title" id="modalTitle">Delete Artist</h2>
             <button type="button" class="icon-btn" onclick="closeDeleteModal()">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -82,14 +82,14 @@
                 </svg>
             </button>
         </div>
-        <div class="modal__body">
+        <div class="modal__body" id="modalBody">
             <p>Are you sure you want to delete <strong id="artistName"></strong>? This action cannot be undone.</p>
         </div>
         <div class="modal__foot">
             <button type="button" class="btn btn--ghost" onclick="closeDeleteModal()">Cancel</button>
             <form method="post" style="display: inline;" id="deleteForm">
                 {% csrf_token %}
-                <button type="submit" class="btn btn--danger">Delete</button>
+                <button type="submit" class="btn btn--danger" id="deleteBtn">Delete</button>
             </form>
         </div>
     </div>
@@ -159,6 +159,7 @@
 
     .artist-detail__admin-actions {
         display: flex;
+        flex-direction: column;
         gap: 12px;
         margin-left: auto;
         flex-shrink: 0;
@@ -285,12 +286,86 @@
             font-size: 24px;
         }
     }
+    .btn-charge {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        
+        padding: 10px 14px;
+        border: 1px solid #ccc;
+        background: transparent;
+        
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        
+        cursor: pointer;
+        overflow: hidden;
+        }
+        
+        /* progress bar */
+        .btn-progress {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 2px;
+        width: 100%;
+        background:rgb(46, 6, 6);
+        
+        transform: scaleX(0);
+        transform-origin: left;
+        }
+        
+        /* hover triggers animation */
+        .btn-charge:is(:hover, :focus-visible) .btn-progress {
+        animation: charge var(--charge-dur, 600ms) linear forwards;
+        }
+        
+        /* fully charged state */
+        .btn-charge[data-ready] .btn-progress {
+        transform: scaleX(1);
+        animation: none;
+        }
+        
+        /* label stays above animation */
+        .btn-label {
+        position: relative;
+        z-index: 1;
+        }
+        
+        @keyframes charge {
+        to {
+            transform: scaleX(1);
+        }
+    }
 </style>
 
 <script>
-    function openDeleteModal(artistName, artistId) {
+    let deleteArtistId = null;
+    let linkedAlbumCount = 0;
+
+    function openDeleteModal(artistId, artistName, linkedAlbums = 0) {
+        deleteArtistId = artistId;
+        linkedAlbumCount = linkedAlbums;
+
         document.getElementById('artistName').textContent = artistName;
         document.getElementById('deleteForm').action = `/artist/${artistId}/delete/`;
+
+        const modalBody = document.getElementById('modalBody');
+        const deleteBtn = document.getElementById('deleteBtn');
+        const modalTitle = document.getElementById('modalTitle');
+
+        if (linkedAlbums > 0) {
+            modalTitle.textContent = 'Cannot Delete Artist';
+            modalBody.innerHTML = `<p><strong>${artistName}</strong> has <strong>${linkedAlbums}</strong> linked album(s). Please remove them first before deleting this artist.</p>`;
+            deleteBtn.style.display = 'none';
+        } else {
+            modalTitle.textContent = 'Delete Artist';
+            modalBody.innerHTML = `<p>Are you sure you want to delete <strong>${artistName}</strong>? This action cannot be undone.</p>`;
+            deleteBtn.style.display = 'block';
+        }
+
         document.getElementById('deleteModal').style.display = 'grid';
     }
 
@@ -303,6 +378,58 @@
             closeDeleteModal();
         }
     });
+    
+    /* =========================
+       FRICTION DELETE BUTTON
+    ========================== */
+
+    const deleteBtn = document.querySelector('.btn-confirm');
+
+    if (deleteBtn) {
+        const progress = deleteBtn.querySelector('.btn-progress');
+        const duration = 800;
+
+        let ready = false;
+        let chargeTimer = null;
+        let decayTimer = null;
+
+        const arm = () => {
+            ready = true;
+            deleteBtn.dataset.ready = "true";
+        };
+
+        const reset = () => {
+            ready = false;
+            deleteBtn.dataset.ready = "";
+            progress.style.transform = "scaleX(0)";
+        };
+
+        const startCharge = () => {
+            clearTimeout(chargeTimer);
+            chargeTimer = setTimeout(arm, duration);
+        };
+
+        const startDecay = () => {
+            clearTimeout(decayTimer);
+            decayTimer = setTimeout(reset, 1200);
+        };
+
+        const activate = () => {
+            if (!ready) return;
+
+            // trigger actual form submit
+            const form = document.getElementById('deleteForm');
+            if (form) form.submit();
+        };
+
+        deleteBtn.addEventListener('pointerenter', startCharge);
+        deleteBtn.addEventListener('focus', startCharge);
+
+        deleteBtn.addEventListener('pointerleave', startDecay);
+        deleteBtn.addEventListener('focusout', startDecay);
+
+        deleteBtn.addEventListener('click', activate);
+    }
 </script>
 
 {% endblock %}

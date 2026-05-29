@@ -31,7 +31,7 @@
             <div class="album-card__actions">
                 <a href="{% url 'edit-album' album.id %}" class="btn btn--secondary btn--sm">Edit</a>
                 <button class="btn-charge btn--danger" data-duration="600">
-                    <div class="btn-label" onClick="openDeleteModal({{ album.id }}, '{{ album.title }}')" role="button">Delete</div>
+                    <div class="btn-label" onClick="openDeleteModal('{{ album.id }}', '{{ album.title }}')" role="button">Delete</div>
                     <span class="btn-progress"></span>
                 </button>
 
@@ -102,7 +102,7 @@
             </button>
         </div>
         <div class="modal__body">
-            <p>Are you sure you want to delete <strong id="albumTitle"></strong>? This action cannot be undone.</p>
+            <p>Are you sure you want to delete <strong id="albumTitle">{{album.title}}</strong>? This action cannot be undone.</p>
         </div>
         <div class="modal__foot">
             <button type="button" class="btn btn--ghost" onclick="closeDeleteModal()">Cancel</button>
@@ -355,7 +355,7 @@
 <script>
     let deleteAlbumId = null;
 
-    function openDeleteModal(albumTitle, albumId) {
+    function openDeleteModal(albumId, albumTitle) {
         document.getElementById('albumTitle').textContent = albumTitle;
         document.getElementById('deleteForm').action = `/albums/${albumId}/delete/`;
         document.getElementById('deleteModal').style.display = 'grid';
