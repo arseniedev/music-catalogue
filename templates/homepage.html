@@ -7,7 +7,7 @@
 
 {% block content %}
     <div class="heroSubP">
-        <p>The</p>
+        <p>Music Collectors'</p>
     </div>
     <div class="hero">
         <div class="heroT">
@@ -88,20 +88,25 @@
             
             font-size: 7em;
             font-weight: 600;
-            color:hsl(22, 95.60%, 8.80%);
+            color: #ff9b9b;
             background:
-            radial-gradient( 2em 2em at 50% 50%,
-                transparent calc(var(--p) - 2em),
-                #fff calc(var(--p) - 1em), 
-                #fff calc(var(--p) - 0.4em), 
-                transparent var(--p) 
-            ),
-            linear-gradient(0deg,rgb(51, 2, 2) 30%,rgb(70, 24, 2) 100%);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 16px rgba(174,207,242,.24);
-
+            radial-gradient(
+                    2em 2em at 50% 50%,
+                    transparent calc(var(--p) - 2em),
+                    #ffe0e0 calc(var(--p) - 1em),
+                    #ffe0e0 calc(var(--p) - 0.4em),
+                    transparent var(--p)
+                ),
+                linear-gradient(
+                    0deg,
+                    #2a0000 15%,
+                    #7a0000 55%,
+                    #ff3c3c 100%
+                );
+                background-clip: text;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                text-shadow: 0 2px 16px #250101;
             --p:0%;
             transition:--p 3s linear;
             
@@ -136,13 +141,13 @@
 
         .heroP {
             font-size: 1.2em;
-            position: absolute; left: 0; right: 0; top: 17em; margin: auto;
+            position: absolute; left: 0; right: 0; top: 18em; margin: auto;
             height: fit-content; width: fit-content; text-align: center;
             opacity: 0;
             translate: 0 1em;
             animation: load 2s ease-out 2s forwards, up 1.4s ease-out 2s forwards;
             color: #d8ecf8;
-            text-shadow: 0 2px 16px rgba(174,207,242,.24);
+            text-shadow: 0 2px 16pxrgba(37, 1, 1, 0.14);
             background: linear-gradient(0deg, #d8ecf8 0, #98c0ef 100%);
             background-clip: text;
             -webkit-background-clip: text;
@@ -166,9 +171,9 @@
         .heroSubP p {
             font-size: 1em;
             position: relative; width: fit-content; margin: auto;
-            color: #d8ecf8;
-            text-shadow: 0 2px 16px rgba(174,207,242,.24);
-            background: linear-gradient(0deg, #d8ecf8 0, #98c0ef 100%);
+            color: #250101;
+            text-shadow: 0 2px 16px #250101;
+            background: linear-gradient(0deg,rgb(44, 29, 29) 0,#120101 100%);
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -186,12 +191,12 @@
             100% { opacity: 0.3;}    
         }
         .heroSubP p::before{
-            background: linear-gradient( -90deg, #9dc3f7 0%, transparent 100%);
+            background: linear-gradient( -90deg, #120101 0%, transparent 100%);
             right: 120%;
             translate: -5em 0;
         }
         .heroSubP p::after {
-            background: linear-gradient( 90deg, #9dc3f7 0%, transparent 100%);
+            background: linear-gradient( 90deg, #120101 0%, transparent 100%);
             left: 120%;
             translate: 5em 0;
         }
