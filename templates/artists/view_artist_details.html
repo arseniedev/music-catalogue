@@ -63,7 +63,8 @@
                         {% endif %}
                     </div>
                     <h3 class="album-mini-card__title">{{ album.title }}</h3>
-                    <p class="album-mini-card__meta">{{ album.genre|title }} • {{ album.release_date|date:"Y" }}</p>
+                    <p class="album-mini-card__meta">{{ album.genre|title }} •</p>
+                    {% comment %}  {{ album.release_Year | date:"Y" }} {% endcomment %}
                 </div>
             </a>
             {% endfor %}
