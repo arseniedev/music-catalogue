@@ -72,7 +72,6 @@
 │   ├── __init__.py
 │   ├── admin.py
 │   ├── apps.py
-│   ├── assets
 │   ├── forms.py
 │   ├── migrations
 │   ├── models.py
@@ -93,12 +92,12 @@
 └── templates
     ├── albums
     ├── artists
-    ├── authentication.html
     ├── base.html
     ├── homepage.html
+    ├── nav.html
     └── registration
 
-11 directories, 20 files
+10 directories, 20 files
 ```
 <!-- END_STRUCTURE -->
 ---
