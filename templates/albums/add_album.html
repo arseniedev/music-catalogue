@@ -10,12 +10,6 @@
     <!-- Header -->
     <div class="admin-header">
         <a href="{% url 'albums' %}" class="breadcrumb">← Back to Albums</a>
-
-        <div class="admin-title">
-            <div class="kicker">ADMIN PANEL</div>
-            <h1>Add Album</h1>
-            <p>Fill in the details to add a new album to the catalogue.</p>
-        </div>
     </div>
 
     {% if submitted %}
@@ -27,7 +21,11 @@
             </div>
         </div>
     {% else %}
-
+    <div class="admin-title">
+        <div class="kicker">ADMIN PANEL</div>
+        <h1>Add Album</h1>
+        <p>Fill in the details to add a new album to the catalogue.</p>
+    </div>
     <form class="admin-form" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
 

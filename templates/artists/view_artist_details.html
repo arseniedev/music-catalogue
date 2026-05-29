@@ -3,6 +3,7 @@
 
 {% block title %} {{ artist.name }} | Music Collectors Catalogue {% endblock %}
 
+{% comment %} {% block extra_css %}<link rel="stylesheet" href="{% static 'modal.css' %}">{% endblock %} {% endcomment %}
 {% block content %}
 
 <div class="artist-detail-header">
@@ -40,7 +41,6 @@
                 <div class="album-mini-card">
                     <div class="album-mini-card__image">
                         {% if album.cover_image %}
-                        
                             <img 
                                 src="{{ album.cover_image.url }}"
                                 alt="{{ album.title }}"

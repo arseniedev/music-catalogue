@@ -1,0 +1,75 @@
+{% load static %}
+{% block content %}
+    <nav class="nav">
+        <!-- LEFT: Brand -->
+        <div class="nav__left">
+            <a href="{% url 'homepage' %}" class="brand">
+                <img 
+                    class="brand__mark"
+                    src="{% static 'images/vinyl-flat-icon.png' %}"
+                    alt="Music Collectors Logo"
+                    width="48"
+                    height="48"
+                >
+            </a>
+        </div>
+
+        <!-- CENTER: Main Tabs -->
+        <div class="nav__center nav__cluster--desktop">
+            <a href="{% url 'homepage' %}" class="navlink {% if request.resolver_match.url_name == 'homepage' %}is-active{% endif %}">
+                Home
+            </a>
+            
+            <a href="{% url 'albums' %}" class="navlink {% if request.resolver_match.url_name == 'albums' %}is-active{% endif %}">
+                Albums
+            </a>
+            
+            <a href="{% url 'artists' %}" class="navlink {% if request.resolver_match.url_name == 'artists' %}is-active{% endif %}">
+                Artists
+            </a>
+        </div>
+
+        <!-- RIGHT: Auth -->
+        <div class="nav__right">
+            <div class="nav__cluster nav__cluster--desktop">
+                {% if user.is_authenticated %}
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn--ghost">Logout</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn--ghost">Admin Login</a>
+                {% endif %}
+            </div>
+
+            <!-- Hamburger -->
+            <button class="nav__burger" id="mobile-burger" aria-label="Toggle menu">
+                ☰
+            </button>
+        </div>
+    </nav>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu" style="display: none;">
+        <div class="mobile-menu__inner">
+            <a href="{% url 'homepage' %}" class="mobile-item">
+                <div class="mobile-item__label">Home</div>
+            </a>
+            <a href="{% url 'albums' %}" class="mobile-item">
+                <div class="mobile-item__label">Albums</div>
+            </a>
+            <a href="{% url 'artists' %}" class="mobile-item">
+                <div class="mobile-item__label">Artists</div>
+            </a>
+            <div class="mobile-item mobile-item--auth">
+                {% if user.is_authenticated %}
+                    <form action="{% url 'logout' %}" method="post" style="width: 100%;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn--ghost" style="width: 100%;">Logout</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn--ghost" style="width: 100%;">Admin Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

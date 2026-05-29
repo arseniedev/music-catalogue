@@ -3,6 +3,8 @@
 
 {% block title %} {{ album.title }} | Music Collectors Catalogue {% endblock %}
 
+{% comment %} {% block extra_css %}<link rel="stylesheet" href="{% static 'modal.css' %}">{% endblock %} {% endcomment %}
+
 {% block content %}
 
 <div class="album-detail-header">
@@ -94,21 +96,21 @@
     <div class="modal__panel">
         <div class="modal__head">
             <h2 class="modal__title">Delete Album</h2>
-            <button type="button" class="icon-btn" onclick="closeDeleteModal()">
+            {% comment %} X ICON {% endcomment %}
+            {% comment %} <button type="button" class="icon-btn" onclick="closeDeleteModal()">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
                     <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
-            </button>
+            </button> {% endcomment %}
         </div>
         <div class="modal__body">
             <p>Are you sure you want to delete <strong id="albumTitle">{{album.title}}</strong>? This action cannot be undone.</p>
         </div>
         <div class="modal__foot">
-            <button type="button" class="btn btn--ghost" onclick="closeDeleteModal()">Cancel</button>
             <form method="post" style="display: inline;" id="deleteForm">
                 {% csrf_token %}
-                <button type="submit" class="btn btn--danger">Delete</button>
+                <button type="submit" class="btn btn--danger">Confirm</button>
             </form>
         </div>
     </div>
@@ -142,6 +144,7 @@
 
     .album-detail {
         margin: 40px 0 80px;
+        min-height: 100vh;
     }
 
     .album-detail__grid {
@@ -149,14 +152,11 @@
         grid-template-columns: 1fr 1.4fr;
         gap: 60px;
         align-items: start;
-        height: 40%;
-
     }
-
+    
     .album-detail__image-section {
         position: sticky;
         top: 100px;
-        height: 40%;
     }
 
     .album-cover {
