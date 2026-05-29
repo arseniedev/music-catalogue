@@ -1,4 +1,4 @@
-# ♯ Music Catalogue
+b# ♯ Music Catalogue
 
 ![Python](https://img.shields.io/badge/Python-%23007ACC.svg?style=for-the-badge&logo=python&logoColor=white)
 ![Django](https://img.shields.io/badge/Django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white)
@@ -9,8 +9,9 @@
 >
 > Music Catalogue is a web-based catalogue management app built with **Django** and **MySQL**, developed as part of the **BCDE215 - Web Development** course at Ara Institute of Canterbury. It allows users to browse a collection of music albums and songs, while providing administrators with full CRUD control over the catalogue.
 
-🔗 **Live Demo:** *(link to be added)*
+🔗 **Live Demo:** https://youtu.be/TuRtaHknz90
 &nbsp;·&nbsp;
+</br>
 📖 **[Wiki — Full Local Setup Documentation](https://github.com/arseniedev/music-catalogue/wiki)**
 
 ---
@@ -29,37 +30,7 @@
 - **Delete** albums or individual songs from the catalogue
 - Manage collections — group albums into curated sets
 
-> See the [Wiki](https://github.com/arseniedev/music-catalogue/wiki) for full admin usage instructions and data model details.
-
----
-
-## Snapshots
-
-<table>
-  <tr align="center">
-    <td>Homepage</td>
-    <td>Album Home</td>
-    <td>Artist Home</td>
-  </tr>
-  <tr align="center">
-    <td><img src="docs/snapshots/home.png" alt="Home page" width="420"/></td>
-    <td><img src="docs/snapshots/album-home.png" alt="Home page" width="420"/></td>
-    <td><img src="docs/snapshots/artist-home.png" alt="Home page" width="420"/></td>
-  </tr>
-  <tr>
-  <tr align="center">
-    <td>Admin Sign In</td>
-    <td>Edit Album Details</td>
-    <td>Edit Artist Details</td>
-  </tr>
-  <tr align="center">
-    <td><img src="docs/snapshots/admin-signin.png" alt="Home page" width="420"/></td>
-    <td><img src="docs/snapshots/edit-album.png" alt="Edit Artist Details" width="420"/></td>
-    <td><img src="docs/snapshots/edit-artist.png" alt="Edit Album Details" width="420"/></td>
-  </tr>
-
-  
-</table>
+> See the [Wiki](https://github.com/arseniedev/music-catalogue/wiki) for the iteration snapshots, full admin usage instructions, and data model details.
 
 ---
 

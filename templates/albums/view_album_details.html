@@ -85,7 +85,7 @@
 
             <!-- Admin Actions -->
             {% if user.is_authenticated %}
-            <div class="album-card__actions ms-auto">
+            <div class="album-card__actions mt-2">
                 <div class="btn-charge btn--danger" data-duration="600">
                     <button class="btn-label" onClick="openDeleteModal('{{ album.id }}', '{{ album.title }}')">Delete</button>
                     <span class="btn-progress"></span>
@@ -102,13 +102,6 @@
     <div class="modal__panel">
         <div class="modal__head">
             <h2 class="modal__title">Delete Album</h2>
-            {% comment %} X ICON {% endcomment %}
-            {% comment %} <button type="button" class="icon-btn" onclick="closeDeleteModal()">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-            </button> {% endcomment %}
         </div>
         <div class="modal__body">
             <p>Are you sure you want to delete <strong id="albumTitle">{{album.title}}</strong>? This action cannot be undone.</p>
