@@ -11,40 +11,16 @@
     </div>
 
     <div class="delete-container">
-        <div class="delete-warning">
-            <div class="danger-mark">!</div>
-            <h1>Delete Artist</h1>
-            <p>Are you sure you want to delete this artist?</p>
-        </div>
-
         {% if linked_albums > 0 %}
         <div class="delete-blocked">
-            <div style="font-size: 48px; margin-bottom: 12px;">X</div>
+            <div style="font-size: 48px">X</div>
             <h2>Cannot Delete Artist</h2>
             <p>This artist has <strong>{{ linked_albums }}</strong> album(s) linked to it.</p>
             <p>Please remove or reassign these albums before you can delete this artist.</p>
             <a href="{% url 'artist-details' artist.id %}" class="btn btn--ghost" style="width: 100%; text-align: center; margin-top: 20px;">Back to Artist</a>
         </div>
         {% else %}
-        <div class="artist-preview">
-            <div class="artist-preview__icon">ARTIST</div>
-            <div class="artist-preview__info">
-                <h2>{{ artist.name }}</h2>
-                <p class="country">{{ artist.country }}</p>
-            </div>
-        </div>
-
-        <div class="delete-warning__text">
-            <p>This action <strong>cannot be undone</strong>. Please make sure you want to permanently delete this artist from your catalogue.</p>
-        </div>
-
-        <div class="delete-actions">
-            <a href="{% url 'artist-details' artist.id %}" class="btn btn--ghost">Cancel</a>
-            <form method="post" style="display: inline;">
-                {% csrf_token %}
-                <button type="submit" class="btn btn--danger">Delete Artist</button>
-            </form>
-        </div>
+            DONE
         {% endif %}
     </div>
 </div>

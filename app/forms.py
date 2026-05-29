@@ -12,6 +12,11 @@ class AlbumForm(ModelForm):
                 "type": "date"
             })
         }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if self.initial.get("artist"):
+            self.fields["artist"].disabled = True
 
 # Create an Artist form
 class ArtistForm(ModelForm):

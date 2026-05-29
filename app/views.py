@@ -65,22 +65,35 @@ def display_artists(request):
         "search_query": search_query
     })
 
-
 @login_required
 def add_album(request):
     submitted = False
+
+    # handle POST
     if request.method == "POST":
         form = AlbumForm(request.POST, request.FILES)
+
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/add-album?submitted=True')
+
     else:
-        form = AlbumForm
+        # GET request
+        initial_data = {}
+
+        artist_id = request.GET.get("artist")
+        if artist_id:
+            initial_data["artist"] = artist_id
+
+        form = AlbumForm(initial=initial_data)
+
         if 'submitted' in request.GET:
             submitted = True
 
-    return render(request, "albums/add_album.html", {'form': form, 'submitted': submitted})
-
+    return render(request, "albums/add_album.html", {
+        "form": form,
+        "submitted": submitted
+    })
 
 @login_required
 def edit_album(request, album_id):

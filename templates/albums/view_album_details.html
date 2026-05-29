@@ -28,17 +28,6 @@
                         class="album-cover__img">
                 {% endif %}
             </div>
-            
-            {% if user.is_authenticated %}
-            <div class="album-card__actions">
-                <a href="{% url 'edit-album' album.id %}" class="btn btn--secondary btn--sm">Edit</a>
-                <button class="btn-charge btn--danger" data-duration="600">
-                    <div class="btn-label" onClick="openDeleteModal('{{ album.id }}', '{{ album.title }}')" role="button">Delete</div>
-                    <span class="btn-progress"></span>
-                </button>
-
-            </div>
-            {% endif %}
         </div>
 
         <!-- Album Info -->
@@ -84,6 +73,17 @@
             <div class="album-detail__description">
                 <h3>About This Album</h3>
                 <p>{{ album.comment }}</p>
+            </div>
+            {% endif %}
+
+            <!-- Admin Actions -->
+            {% if user.is_authenticated %}
+            <div class="album-card__actions ms-auto">
+                <a href="{% url 'edit-album' album.id %}" class="btn btn--primary btn--sm">Edit</a>
+                <div class="btn-charge btn--danger" data-duration="600">
+                    <button class="btn-label" onClick="openDeleteModal('{{ album.id }}', '{{ album.title }}')">Delete</button>
+                    <span class="btn-progress"></span>
+                </div>
             </div>
             {% endif %}
         </div>
@@ -255,6 +255,16 @@
         font-size: 16px;
         line-height: 1.7;
         color: var(--muted);
+    }
+
+    .btn-charge button {
+        background: none;
+        border: none;
+    }
+
+    .btn-charge:hover {
+        background: #ffffff;
+        shadow-color:rgba(57, 0, 0, 0.64);
     }
 
     /* Responsive */

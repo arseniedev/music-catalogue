@@ -40,7 +40,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'app.apps.appConfig',
-    "django_browser_reload",
+    # "django_browser_reload",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
