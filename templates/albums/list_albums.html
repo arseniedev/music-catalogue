@@ -61,7 +61,7 @@
                 <div class="album-card__content">
                     <h3 class="album-card__title">{{ album.title }}</h3>
                     <p class="album-card__artist">{{ album.artist.name|default:"Unknown Artist" }}</p>
-                    {% comment %} <p class="album-card__meta">{{ album.genre|title }} • {{ album.release_year|date:"Y" }}</p> {% endcomment %}
+                    <p class="album-card__meta">{{ album.genre|title }} • {{ album.release_year}}</p>
                 </div>
         </div>
     </a>
@@ -191,7 +191,7 @@
         margin: 0 0 6px;
         font-size: 14px;
         color: var(--accent);
-        font-weight: 600;
+        font-weight: 550;
     }
 
     .album-card__meta {
