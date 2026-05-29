@@ -25,11 +25,11 @@ class Album(models.Model):
     )
     cover_image = models.ImageField(
         upload_to="album_covers/", 
-        default="album_covers/album-cover-placeholder.png",
+        default="album_covers/album-placeholder.png",
         null=True,
         blank=True
     )
-    release_date = models.DateField()
+    release_year = models.IntegerField()
     GENRE_CHOICES = [
         ('blues', 'Blues'),
         ('classical', 'Classical'),
@@ -61,7 +61,7 @@ class Album(models.Model):
         db_table = "album"
 
     def __str__(self):
-        return f"{self.title} {self.artist.name} ({self.release_date.strftime('%d-%B-%Y')})"
+        return f"{self.title} {self.artist.name} {self.release_year}"
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

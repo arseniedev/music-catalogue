@@ -1,10 +1,445 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %} {{artist.name}} | Music Collecotrs Catalogue {% endblock %}
+{% block title %} {{ artist.name }} | Music Collectors Catalogue {% endblock %}
 
+{% comment %} {% block extra_css %}<link rel="stylesheet" href="{% static 'modal.css' %}">{% endblock %} {% endcomment %}
 {% block content %}
-    <h1>{{artist.name}}</h1>
-    <p>ID: {{artist.id}}</p>
-    <p>Name: {{artist.name}}</p>
-    <p>Albums: Albums</p>
+
+<div class="artist-detail-header">
+    <a href="{% url 'artists' %}" class="breadcrumb">← Back to Artists</a>
+</div>
+
+<article class="artist-detail">
+    <!-- Header Section -->
+    <div class="artist-detail__header">
+        {% comment %} <div class="artist-card__icon sedgwick-ave-display-regular">ARTIST</div> {% endcomment %}
+        <div class="artist-detail__meta">
+            <div class="kicker">
+                ARTIST
+            </div>
+            {% if user.is_authenticated %}
+            <a href="{% url 'edit-artist' artist.id %}">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1a1209"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
+            </a>
+            {% endif %}
+            <h1 class="artist-detail__name">{{ artist.name }}</h1>
+            <p class="artist-detail__location">{{ artist.country }}</p>
+        </div>
+        
+        {% if user.is_authenticated %}
+        <div class="artist-detail__admin-actions">
+            <a href="{% url 'add-album' %}?artist={{ artist.id }}" class="btn btn--primary">
+                Add Album
+            </a>
+            <button class="btn-charge btn--danger" data-duration="600">
+                <div class="btn-label" onClick="openDeleteModal({{ artist.id }}, '{{ artist.name }}')" role="button">Delete Artist</div>
+                <span class="btn-progress"></span>
+            </button>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Albums Section -->
+    {% if albums %}
+    <section class="artist-albums">
+        <h2 class="section-title">Albums by {{ artist.name }}</h2>
+        <div class="album-mini-grid">
+            {% for album in albums %}
+            <a href="{% url 'album-details' album.id %}">
+                <div class="album-mini-card">
+                    <div class="album-mini-card__image">
+                        {% if album.cover_image %}
+                            <img 
+                                src="{{ album.cover_image.url }}"
+                                alt="{{ album.title }}"
+                                class="album-mini-card__img">
+                            
+                        {% else %}
+                            <img 
+                                src="/media/image-placeholder.png"
+                                alt="Album cover placeholder"
+                                class="album-mini-card__img">
+                        {% endif %}
+                    </div>
+                    <h3 class="album-mini-card__title">{{ album.title }}</h3>
+                    <p class="album-mini-card__meta">{{ album.genre|title }} •</p>
+                    {% comment %}  {{ album.release_Year | date:"Y" }} {% endcomment %}
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+    {% else %}
+    <div class="empty-state">
+        <p>No albums found for this artist.</p>
+    </div>
+    {% endif %}
+</article>
+
+<!-- Delete Modal -->
+<div class="modal" id="deleteModal" style="display: none;">
+    <div class="modal__backdrop" onclick="closeDeleteModal()"></div>
+    <div class="modal__panel">
+        <div class="modal__head">
+            <h2 class="modal__title" id="modalTitle">Delete Artist</h2>
+            <button type="button" class="icon-btn" onclick="closeDeleteModal()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <div class="modal__body" id="modalBody">
+            <p>Are you sure you want to delete <strong id="artistName"></strong>? This action cannot be undone.</p>
+        </div>
+        <div class="modal__foot">
+            <button type="button" class="btn btn--ghost" onclick="closeDeleteModal()">Cancel</button>
+            <form method="post" style="display: inline;" id="deleteForm">
+                {% csrf_token %}
+                <button type="submit" class="btn btn--danger" id="deleteBtn">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .artist-detail-header {
+        margin-bottom: 40px;
+    }
+
+    .breadcrumb {
+        font-size: 14px;
+        color: var(--muted);
+        font-weight: 600;
+        transition: color 0.2s ease;
+    }
+
+    .breadcrumb:hover {
+        color: var(--accent);
+    }
+
+    .kicker {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 12px;
+    }
+
+    .artist-detail {
+        margin: 40px 0 80px;
+    }
+
+    .artist-detail__header {
+        display: flex;
+        align-items: flex-start;
+        gap: 32px;
+        padding: 1em;
+        border-bottom: 2px solid var(--line) ;
+        background: linear-gradient(180deg, var(--glass-05), var(--glass-02));
+        margin-bottom: 2em;
+    }
+
+    .artist-detail__icon {
+        font-size: 72px;
+        line-height: 1;
+        flex-shrink: 0;
+    }
+
+    .artist-detail__name {
+        margin: 0 0 8px;
+        font-size: 2.5rem;
+        font-weight: 800;
+        line-height: 1;
+        letter-spacing: -0.01em;
+    }
+
+    .artist-detail__location {
+        margin: 0;
+        font-size: 18px;
+        color: var(--muted);
+        font-weight: 500;
+    }
+
+    .artist-detail__admin-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-left: auto;
+        flex-shrink: 0;
+    }
+
+    /* Albums Section */
+    .artist-albums {
+        margin: 40px 0;
+    }
+
+    .section-title {
+        margin: 0 0 25px;
+        font-size: 1.2rem;
+        font-weight: 650;
+        text-transform: uppercase;
+        letter-spacing: -0.01em;
+    }
+
+    .album-mini-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 2em;
+        grid-auto-rows: 1fr;
+    }
+
+    .album-mini-card {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        height: 100%;
+        padding: 1rem;
+        border: 1px solid var(--line);
+        transition: all 0.3s ease;
+        width: 75%;
+    }
+
+    .album-mini-card:hover {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px var(--ring-2);
+        transform: scale(1.09); 
+    }
+
+    .album-mini-card__image {
+        width: 100%;
+        aspect-ratio: 1;
+        overflow: hidden;
+        background: var(--panel-2);
+    }
+
+    .album-mini-card__img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .album-mini-card__title {
+        margin: 16px 16px 6px;
+        font-size: 1rem;
+        font-weight: 700;
+    }
+
+    .album-mini-card__meta {
+        margin: 0 16px 16px;
+        font-size: 12px;
+        color: var(--muted);
+    }
+    .album-card__overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: flex-end;
+        padding: 16px;
+        background: linear-gradient(180deg, transparent, var(--overlay-55));
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .album-card:hover .album-card__overlay {
+        opacity: 0.8;
+    }
+
+    .btn--sm {
+        padding: 8px 12px;
+        font-size: 12px;
+        margin: 0 16px 16px;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--muted);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .artist-detail__header {
+            flex-direction: column;
+            padding: 24px;
+        }
+
+        .artist-detail__icon {
+            font-size: 48px;
+        }
+
+        .artist-detail__name {
+            {% comment %} font-size: 32px; {% endcomment %}
+        }
+
+        .artist-detail__admin-actions {
+            width: 100%;
+            margin-left: 0;
+            flex-direction: column;
+        }
+
+        .album-mini-grid {
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .album-mini-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .artist-detail__name {
+            {% comment %} font-size: 24px; {% endcomment %}
+        }
+    }
+    .btn-charge {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        
+        padding: 10px 14px;
+        border: 1px solid #ccc;
+        background: transparent;
+        
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        
+        cursor: pointer;
+        overflow: hidden;
+        }
+        
+        /* progress bar */
+        .btn-progress {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 2px;
+        width: 100%;
+        background:rgb(46, 6, 6);
+        
+        transform: scaleX(0);
+        transform-origin: left;
+        }
+        
+        /* hover triggers animation */
+        .btn-charge:is(:hover, :focus-visible) .btn-progress {
+        animation: charge var(--charge-dur, 600ms) linear forwards;
+        }
+        
+        /* fully charged state */
+        .btn-charge[data-ready] .btn-progress {
+        transform: scaleX(1);
+        animation: none;
+        }
+        
+        /* label stays above animation */
+        .btn-label {
+        position: relative;
+        z-index: 1;
+        }
+        
+        @keyframes charge {
+        to {
+            transform: scaleX(1);
+        }
+    }
+</style>
+
+<script>
+    let deleteArtistId = null;
+    let linkedAlbumCount = 0;
+
+    function openDeleteModal(artistId, artistName, linkedAlbums = 0) {
+        deleteArtistId = artistId;
+        linkedAlbumCount = linkedAlbums;
+
+        document.getElementById('artistName').textContent = artistName;
+        document.getElementById('deleteForm').action = `/artist/${artistId}/delete/`;
+
+        const modalBody = document.getElementById('modalBody');
+        const deleteBtn = document.getElementById('deleteBtn');
+        const modalTitle = document.getElementById('modalTitle');
+
+        if (linkedAlbums > 0) {
+            modalTitle.textContent = 'Cannoxt Delete Artist';
+            modalBody.innerHTML = `<p><strong>${artistName}</strong> has <strong>${linkedAlbums}</strong> linked album(s). Please remove them first before deleting this artist.</p>`;
+            deleteBtn.style.display = 'none';
+        } else {
+            modalTitle.textContent = 'Deletxe Artist';
+            modalBody.innerHTML = `<p>Are you sure you want to delete <strong>${artistName}</strong>? This action cannot be undone.</p>`;
+            deleteBtn.style.display = 'block';
+        }
+
+        document.getElementById('deleteModal').style.display = 'grid';
+    }
+
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').style.display = 'none';
+    }
+
+    document.getElementById('deleteModal')?.addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeDeleteModal();
+        }
+    });
+    
+    /* =========================
+       FRICTION DELETE BUTTON
+    ========================== */
+
+    const deleteBtn = document.querySelector('.btn-confirm');
+
+    if (deleteBtn) {
+        const progress = deleteBtn.querySelector('.btn-progress');
+        const duration = 800;
+
+        let ready = false;
+        let chargeTimer = null;
+        let decayTimer = null;
+
+        const arm = () => {
+            ready = true;
+            deleteBtn.dataset.ready = "true";
+        };
+
+        const reset = () => {
+            ready = false;
+            deleteBtn.dataset.ready = "";
+            progress.style.transform = "scaleX(0)";
+        };
+
+        const startCharge = () => {
+            clearTimeout(chargeTimer);
+            chargeTimer = setTimeout(arm, duration);
+        };
+
+        const startDecay = () => {
+            clearTimeout(decayTimer);
+            decayTimer = setTimeout(reset, 1200);
+        };
+
+        const activate = () => {
+            if (!ready) return;
+
+            // trigger actual form submit
+            const form = document.getElementById('deleteForm');
+            if (form) form.submit();
+        };
+
+        deleteBtn.addEventListener('pointerenter', startCharge);
+        deleteBtn.addEventListener('focus', startCharge);
+
+        deleteBtn.addEventListener('pointerleave', startDecay);
+        deleteBtn.addEventListener('focusout', startDecay);
+
+        deleteBtn.addEventListener('click', activate);
+    }
+</script>
+
 {% endblock %}

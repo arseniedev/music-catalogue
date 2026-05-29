@@ -1,57 +1,37 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %} Add Artist | Music Collectors Catalogue {% endblock %}
+{% block title %} Edit Artist | Music Collectors Catalogue {% endblock %}
 
 {% block content %}
 
 <div class="form-page">
     <div class="form-page__header">
-        <a href="{% url 'artists' %}" class="breadcrumb">← Back to Artists</a>
+        <a href="{% url 'artist-details' artist.id %}" class="breadcrumb">← Back to Artist</a>
     </div>
 
-    {% if submitted %}
-    <div class="success-message">
-        <div class="success-message__content">
-            <div style="font-size: 48px; margin-bottom: 16px;">✓</div>
-            <h2>Artist Added Successfully!</h2>
-            <p>Your artist has been added to the catalogue.</p>
-            <a href="{% url 'artists' %}" class="btn btn--primary">Back to Artists</a>
-        </div>
-    </div>
-    {% else %}
     <div class="form-container">
         <div class="form-header">
             <div class="kicker">ADMIN</div>
-            <h1>Add Artist to Catalogue</h1>
-            <p>Fill in the details below to add a new artist to your collection.</p>
+            <h1>Edit Artist</h1>
+            <p class="form-header__subtitle">{{ artist.name }}</p>
         </div>
 
         <form class="form" method="POST">
             {% csrf_token %}
-        
+            
             <fieldset class="form__fieldset">
                 <legend>Artist Information</legend>
-        
-                <div class="form__group">
-                    <label for="{{ form.name.id_for_label }}">Artist Name</label>
-                    {{ form.name }}
-                </div>
-        
-                <div class="form__group">
-                    <label for="{{ form.country.id_for_label }}">Country</label>
-                    {{ form.country }}
-                </div>
-        
+                {{ form.name }}
+                {{ form.country }}
             </fieldset>
-        
+
             <div class="form__actions">
-                <a href="{% url 'artists' %}" class="btn btn--ghost">Cancel</a>
-                <button type="submit" class="btn btn--primary">Add Artist</button>
+                <a href="{% url 'artist-details' artist.id %}" class="btn btn--ghost">Cancel</a>
+                <button type="submit" class="btn btn--primary">Save Changes</button>
             </div>
         </form>
     </div>
-    {% endif %}
 </div>
 
 <style>
@@ -74,31 +54,6 @@
 
     .breadcrumb:hover {
         color: var(--accent);
-    }
-
-    .success-message {
-        display: grid;
-        place-items: center;
-        min-height: 400px;
-    }
-
-    .success-message__content {
-        text-align: center;
-        padding: 40px;
-        border: 1px solid var(--line);
-        {% comment %} border-radius: var(--radius-sm); {% endcomment %}
-        background: linear-gradient(180deg, var(--glass-05), var(--glass-02));
-    }
-
-    .success-message__content h2 {
-        margin: 0 0 12px;
-        font-size: 28px;
-        font-weight: 700;
-    }
-
-    .success-message__content p {
-        margin: 0 0 24px;
-        color: var(--muted);
     }
 
     .form-container {
@@ -130,9 +85,9 @@
         font-weight: 900;
     }
 
-    .form-header p {
+    .form-header__subtitle {
         margin: 0;
-        font-size: 14px;
+        font-size: 16px;
         color: var(--muted);
     }
 

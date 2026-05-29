@@ -1,7 +1,10 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+**/*/__pycache__/
 *.py[cod]
 *$py.class
+*.pyc
+db.sqlite3
 
 # Environments
 .env
@@ -18,6 +21,7 @@ db.sqlite3-journal
 media/
 static/
 !static/README.md  # Keep a placeholder if needed
+staticfiles/
 
 # Local development settings
 local_settings.py

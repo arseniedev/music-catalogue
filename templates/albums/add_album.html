@@ -1,26 +1,321 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %} Album | Music Collectors Catalogue {% endblock %}
+{% block title %} Add Album | Music Collectors Catalogue {% endblock %}
 
 {% block content %}
-    <center>
-        <h1>Add Album to Database</h1>
-        <br/>
-        <br/>
 
-        {% if submitted %}
-            Your Album is added successfully!!!
+<div class="admin-page">
 
-        {% else %}
-            <form action="" method="POST">
-                {% csrf_token %}
+    <!-- Header -->
+    <div class="admin-header">
+        <a href="{% url 'albums' %}" class="breadcrumb">← Back to Albums</a>
+    </div>
 
-                {{form.as_p}}
-                
-                <div class="btn-primary">
-                    <input type="submit" value="Submit" class="submit-album-form">
-                </div>
-            </form>
-        {% endif %}
-    </center>
+    {% if submitted %}
+        <div class="success">
+            <div class="success-box">
+                <div class="success-icon">✓</div>
+                <h2>Album Added</h2>
+                <a class="btn btn--primary" href="{% url 'albums' %}">Back</a>
+            </div>
+        </div>
+    {% else %}
+    <div class="admin-title">
+        <div class="kicker">ADMIN PANEL</div>
+        <h1>Add Album</h1>
+        <p>Fill in the details to add a new album to the catalogue.</p>
+    </div>
+    <form class="admin-form" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-grid">
+
+            <!-- LEFT COLUMN -->
+            <div class="form-col">
+
+                <fieldset class="panel">
+                    <legend>Album Info</legend>
+
+                    <div class="field">
+                        <label>Album Title</label>
+                        {{ form.title }}
+                    </div>
+
+                    <div class="field">
+                        <label>Artist</label>
+                        {{ form.artist }}
+                    </div>
+
+                    <div class="field">
+                        {% comment %} <label>Release Year</label> {% endcomment %}
+                        {% comment %} {{ form.release_year }} {% endcomment %}
+                        <div class="form__group">
+                            <label for "release_year">Release Year</label>
+                            
+                            <!-- Hidden actual Django field -->
+                            {{ form.release_year.as_hidden }}
+                        
+                            <!-- Custom Picker -->
+                            <ul id="scroll-picker">
+                                <li class="year"></li>
+                            </ul>
+                        
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="panel">
+                    <legend>Production</legend>
+
+                    <div class="field">
+                        <label>Producer</label>
+                        {{ form.producer_name }}
+                    </div>
+
+                    <div class="field">
+                        <label>Record Label</label>
+                        {{ form.record_label }}
+                    </div>
+                </fieldset>
+
+            </div>
+
+            <!-- RIGHT COLUMN -->
+            <div class="form-col">
+
+                <fieldset class="panel">
+                    <legend>Classification</legend>
+
+                    <div class="field">
+                        <label>Genre</label>
+                        {{ form.genre }}
+                    </div>
+                </fieldset>
+
+                <fieldset class="panel">
+                    <legend>Media</legend>
+
+                    <div class="field">
+                        <label>Album Cover</label>
+                        {{ form.cover_image }}
+                    </div>
+                </fieldset>
+
+                <fieldset class="panel panel--full">
+                    <legend>Notes</legend>
+
+                    <div class="field">
+                        {{ form.comment }}
+                    </div>
+                </fieldset>
+
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+            <a href="{% url 'albums' %}" class="btn btn--ghost">Cancel</a>
+            <button type="submit" class="btn btn--primary">Save Album</button>
+        </div>
+
+    </form>
+
+    {% endif %}
+</div>
+<style>
+/* ================= ADMIN PAGE LAYOUT ================= */
+
+.admin-page {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* HEADER */
+.admin-header {
+    margin-bottom: 32px;
+}
+
+.breadcrumb {
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.breadcrumb:hover {
+    color: var(--accent);
+}
+
+.admin-title {
+    margin-top: 16px;
+}
+
+.kicker {
+    font-size: 12px;
+    letter-spacing: .12em;
+    font-weight: 800;
+    color: var(--accent);
+}
+
+.admin-title h1 {
+    margin: 8px 0;
+    font-size: 32px;
+}
+
+.admin-title p {
+    color: var(--muted);
+    margin: 0;
+}
+
+/* ================= FORM GRID ================= */
+
+.admin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* 2-column layout */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+/* each column */
+.form-col {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* panels */
+.panel {
+    border: 1px solid var(--line);
+    {% comment %} border-radius: 12px; {% endcomment %}
+    padding: 20px;
+    background: rgba(255,255,255,0.03);
+}
+
+.panel legend {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+}
+
+/* fields */
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+
+.field label {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.field input,
+.field select,
+.field textarea {
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    {% comment %} border-radius: 8px; {% endcomment %}
+    background: var(--panel);
+    color: var(--text);
+    font-size: 14px;
+}
+
+
+#scroll-picker {
+    display: flex;
+    justify-content: center;
+
+    perspective: 1000px;
+}
+
+#scroll-picker li {
+    list-style: none;
+
+    width: 100px;
+    height: 220px;
+
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+}
+
+#scroll-picker button {
+    background: transparent;
+    border: none;
+
+    color: white;
+
+    padding: 0.5rem;
+
+    font-size: 1rem;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+}
+
+#scroll-picker button.selected {
+    font-size: 1.8rem;
+    font-weight: bold;
+
+    transform: scale(1.2);
+
+    color: var(--accent);
+}
+
+#scroll-picker button.faded {
+    opacity: 0.35;
+    transform: scale(0.8);
+}
+
+/* textarea */
+textarea {
+    min-height: 140px;
+    resize: vertical;
+}
+
+/* ACTIONS */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+}
+
+/* ================= RESPONSIVE ================= */
+
+/* tablet + mobile */
+@media (max-width: 64em) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions .btn {
+        width: 100%;
+    }
+}
+</style>
 {% endblock %}

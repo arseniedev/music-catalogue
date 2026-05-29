@@ -1,33 +1,235 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %} {{page_title}} | Music Collecotrs Catalogue {% endblock %}
+{% block title %} {{page_title}} | Music Collectors Catalogue {% endblock %}
 
 {% block content %}
-    <h1>Artists</h1>
-    <div id="artist-container">
-        <ul>
-            {% for artist in artist_list %}
-                <li>
-                    <a href="{{artist.id}}/">{{ artist.name}} {{ artist.country}}</a>
-                </li>
-            {% empty %}
-                <p>No artists found.</p>
-            {% endfor %}
-        </ul>
-    </div>
 
-    </br>
-    
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Artists</h1>
+        <p class="page-subtitle">{{ artist_list|length }} artists in collection</p>
+    </div>
     {% if user.is_authenticated %}
-
-
-    <div class="btn-primary">
-        <button>
-            <a class="add-artist" href="{% url 'add-artist' %}">Add Artist</a>
-        </button>
+    <div class="page-actions">
+        <a href="{% url 'add-artist' %}" class="btn btn--primary button-54">Add Artist</a>
     </div>
-
-    {% else %}
-    
     {% endif %}
+</div>
+
+{% if artist_list %}
+<div class="artist-grid">
+    {% for artist in artist_list %}
+    <a href="{% url 'artist-details' artist.id %}" class=" btn--view-details btn--sm" style=" 16px;">
+        <div class="artist-card">
+            <div class="artist-card__header">
+                <div class="artist-card__icon sedgwick-ave-display-regular">ARTIST</div>
+                    {% comment %} <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M200-120q-33 0-56.5-23.5T120-200v-160h80v160h160v80H200Zm400 0v-80h160v-160h80v160q0 33-23.5 56.5T760-120H600ZM120-600v-160q0-33 23.5-56.5T200-840h160v80H200v160h-80Zm640 0v-160H600v-80h160q33 0 56.5 23.5T840-760v160h-80Z"/></svg> {% endcomment %}
+            </div>
+            <div class="artist-card__content">
+                <h3 class="artist-card__name">{{ artist.name }}</h3>
+                <p class="artist-card__country">{{ artist.country }}</p>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+    <p>No artists found. {% if user.is_authenticated %}<a href="{% url 'add-artist' %}">Add your first artist</a>{% endif %}</p>
+</div>
+{% endif %}
+
+<!-- Delete Modal -->
+<div class="modal" id="deleteModal" style="display: none;">
+    <div class="modal__backdrop" onclick="closeDeleteModal()"></div>
+    <div class="modal__panel">
+        <div class="modal__head">
+            <h2 class="modal__title" id="modalTitle">Delete Artist</h2>
+            <button type="button" class="icon-btn" onclick="closeDeleteModal()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <div class="modal__body" id="modalBody">
+            <p>Are you sure you want to delete <strong id="artistName"></strong>? This action cannot be undone.</p>
+        </div>
+        <div class="modal__foot">
+            <button type="button" class="btn btn--ghost" onclick="closeDeleteModal()">Cancel</button>
+            <form method="post" style="display: inline;" id="deleteForm">
+                {% csrf_token %}
+                <button type="submit" class="btn btn--danger" id="deleteBtn">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 40px;
+        gap: 20px;
+    }
+
+    .page-title {
+        margin: 0 0 8px;
+        font-size: 40px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: -0.02em;
+    }
+
+    .page-subtitle {
+        margin: 0;
+        font-size: 14px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+    }
+
+    .page-actions {
+        display: flex;
+        gap: 12px;
+    }
+
+    /* Artist Grid */
+    .artist-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 24px;
+        margin-bottom: 60px;
+    }
+
+    .artist-card {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        background: linear-gradient(180deg, var(--glass-05), var(--glass-02));
+        transition: all 0.3s ease;
+    }
+
+    .artist-card:hover {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px var(--ring-2), var(--shadow);
+    }
+
+    .artist-card__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center; /* usually needed for headers */
+        gap: 2rem;
+        padding: 32px 24px;
+        background: linear-gradient(135deg, var(--panel-2), var(--glass-05));
+        border-bottom: 1px solid var(--line);
+    }
+
+    .artist-card__icon {
+        font-size: 56px;
+        line-height: 1;
+    }
+
+    .artist-card__content {
+        padding: 24px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .artist-card__name {
+        margin: 0 0 8px;
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 1.3;
+    }
+
+    .artist-card__country {
+        margin: 0 0 16px;
+        font-size: 14px;
+        color: var(--muted);
+    }
+
+    .artist-card__actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 12px;
+    }
+
+    .btn--sm {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--muted);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .page-header {
+            flex-direction: column;
+        }
+
+        .artist-grid {
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 16px;
+        }
+
+        .page-title {
+            font-size: 28px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .artist-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<script>
+    let deleteArtistId = null;
+    let linkedAlbumCount = 0;
+
+    function openDeleteModal(artistId, artistName, linkedAlbums = 0) {
+        deleteArtistId = artistId;
+        linkedAlbumCount = linkedAlbums;
+
+        document.getElementById('artistName').textContent = artistName;
+        document.getElementById('deleteForm').action = `/artist/${artistId}/delete/`;
+
+        const modalBody = document.getElementById('modalBody');
+        const deleteBtn = document.getElementById('deleteBtn');
+        const modalTitle = document.getElementById('modalTitle');
+
+        if (linkedAlbums > 0) {
+            modalTitle.textContent = 'Cannot Delete Artist';
+            modalBody.innerHTML = `<p><strong>${artistName}</strong> has <strong>${linkedAlbums}</strong> linked album(s). Please remove them first before deleting this artist.</p>`;
+            deleteBtn.style.display = 'none';
+        } else {
+            modalTitle.textContent = 'Delete Artist';
+            modalBody.innerHTML = `<p>Are you sure you want to delete <strong>${artistName}</strong>? This action cannot be undone.</p>`;
+            deleteBtn.style.display = 'block';
+        }
+
+        document.getElementById('deleteModal').style.display = 'grid';
+    }
+
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').style.display = 'none';
+    }
+
+    document.getElementById('deleteModal')?.addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeDeleteModal();
+        }
+    });
+</script>
+
 {% endblock %}

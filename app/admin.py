@@ -9,7 +9,7 @@ from .models import Album, Artist
 
 @admin.register(Album)
 class AlbumAdmin(admin.ModelAdmin):
-    list_display = ('title', 'artist', 'release_date')
+    list_display = ('title', 'artist', 'release_year')
     ordering = ('title',)
     search_fields  = ('title', 'artist')
 
