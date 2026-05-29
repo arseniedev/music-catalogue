@@ -13,7 +13,6 @@
 <article class="artist-detail">
     <!-- Header Section -->
     <div class="artist-detail__header">
-        {% comment %} <div class="artist-card__icon sedgwick-ave-display-regular">ARTIST</div> {% endcomment %}
         <div class="artist-detail__meta">
             <div class="kicker">
                 ARTIST
@@ -63,8 +62,7 @@
                         {% endif %}
                     </div>
                     <h3 class="album-mini-card__title">{{ album.title }}</h3>
-                    <p class="album-mini-card__meta">{{ album.genre|title }} •</p>
-                    {% comment %}  {{ album.release_Year | date:"Y" }} {% endcomment %}
+                    <p class="album-mini-card__meta">{{ album.genre|title }} • {{ album.release_year}}</p>
                 </div>
             </a>
             {% endfor %}
