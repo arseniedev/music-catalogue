@@ -36,20 +36,28 @@
             <div class="album-mini-card">
                 <div class="album-mini-card__image">
                     {% if album.cover_image %}
+                    
                         <img 
                             src="{{ album.cover_image.url }}"
                             alt="{{ album.title }}"
                             class="album-mini-card__img">
+                        
                     {% else %}
                         <img 
                             src="/media/image-placeholder.png"
                             alt="Album cover placeholder"
                             class="album-mini-card__img">
                     {% endif %}
+                    <div class="album-card__overlay">
+                        <a href="{% url 'album-details' album.id %}" class="btn--view-details btn--sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#D9D9D9"><path d="M200-120q-33 0-56.5-23.5T120-200v-160h80v160h160v80H200Zm400 0v-80h160v-160h80v160q0 33-23.5 56.5T760-120H600ZM120-600v-160q0-33 23.5-56.5T200-840h160v80H200v160h-80Zm640 0v-160H600v-80h160q33 0 56.5 23.5T840-760v160h-80Z"/></svg>
+                        </a>
+                    </div>
                 </div>
+                <a href="{% url 'album-details' album.id %}">
                 <h3 class="album-mini-card__title">{{ album.title }}</h3>
                 <p class="album-mini-card__meta">{{ album.genre|title }} • {{ album.release_date|date:"Y" }}</p>
-                <a href="{% url 'album-details' album.id %}" class="btn btn--secondary btn--sm" style="width: 100%; margin-top: 12px;">View Album</a>
+                </a>
             </div>
             {% endfor %}
         </div>
@@ -213,6 +221,20 @@
         margin: 0 16px 16px;
         font-size: 12px;
         color: var(--muted);
+    }
+    .album-card__overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: flex-end;
+        padding: 16px;
+        background: linear-gradient(180deg, transparent, var(--overlay-55));
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .album-card:hover .album-card__overlay {
+        opacity: 0.8;
     }
 
     .btn--sm {

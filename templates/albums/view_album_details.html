@@ -21,16 +21,20 @@
                         class="album-cover__img">
                 {% else %}
                     <img 
-                        src="/media/image-placeholder.png"
+                        src="/media/album_covers/album-placeholder.png"
                         alt="Album cover placeholder"
                         class="album-cover__img">
                 {% endif %}
             </div>
             
             {% if user.is_authenticated %}
-            <div class="album-detail__admin-actions">
-                <a href="{% url 'edit-album' album.id %}" class="btn btn--primary" style="width: 100%;">Edit Album</a>
-                <button type="button" class="btn btn--danger" style="width: 100%;" onclick="openDeleteModal('{{ album.title }}', {{ album.id }})">Delete Album</button>
+            <div class="album-card__actions">
+                <a href="{% url 'edit-album' album.id %}" class="btn btn--secondary btn--sm">Edit</a>
+                <button class="btn-charge btn--danger" data-duration="600">
+                    <div class="btn-label" onClick="openDeleteModal({{ album.id }}, '{{ album.title }}')" role="button">Delete</div>
+                    <span class="btn-progress"></span>
+                </button>
+
             </div>
             {% endif %}
         </div>
@@ -293,9 +297,64 @@
             gap: 24px;
         }
     }
+    .btn-charge {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        
+        padding: 10px 14px;
+        border: 1px solid #ccc;
+        background: transparent;
+        
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        
+        cursor: pointer;
+        overflow: hidden;
+        }
+        
+        /* progress bar */
+        .btn-progress {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 2px;
+        width: 100%;
+        background:rgb(46, 6, 6);
+        
+        transform: scaleX(0);
+        transform-origin: left;
+        }
+        
+        /* hover triggers animation */
+        .btn-charge:is(:hover, :focus-visible) .btn-progress {
+        animation: charge var(--charge-dur, 600ms) linear forwards;
+        }
+        
+        /* fully charged state */
+        .btn-charge[data-ready] .btn-progress {
+        transform: scaleX(1);
+        animation: none;
+        }
+        
+        /* label stays above animation */
+        .btn-label {
+        position: relative;
+        z-index: 1;
+        }
+        
+        @keyframes charge {
+        to {
+            transform: scaleX(1);
+        }
+    }
 </style>
 
 <script>
+    let deleteAlbumId = null;
+
     function openDeleteModal(albumTitle, albumId) {
         document.getElementById('albumTitle').textContent = albumTitle;
         document.getElementById('deleteForm').action = `/albums/${albumId}/delete/`;
@@ -311,6 +370,59 @@
             closeDeleteModal();
         }
     });
+
+    
+    /* =========================
+       FRICTION DELETE BUTTON
+    ========================== */
+
+    const deleteBtn = document.querySelector('.btn-confirm');
+
+    if (deleteBtn) {
+        const progress = deleteBtn.querySelector('.btn-progress');
+        const duration = 800;
+
+        let ready = false;
+        let chargeTimer = null;
+        let decayTimer = null;
+
+        const arm = () => {
+            ready = true;
+            deleteBtn.dataset.ready = "true";
+        };
+
+        const reset = () => {
+            ready = false;
+            deleteBtn.dataset.ready = "";
+            progress.style.transform = "scaleX(0)";
+        };
+
+        const startCharge = () => {
+            clearTimeout(chargeTimer);
+            chargeTimer = setTimeout(arm, duration);
+        };
+
+        const startDecay = () => {
+            clearTimeout(decayTimer);
+            decayTimer = setTimeout(reset, 1200);
+        };
+
+        const activate = () => {
+            if (!ready) return;
+
+            // trigger actual form submit
+            const form = document.getElementById('deleteForm');
+            if (form) form.submit();
+        };
+
+        deleteBtn.addEventListener('pointerenter', startCharge);
+        deleteBtn.addEventListener('focus', startCharge);
+
+        deleteBtn.addEventListener('pointerleave', startDecay);
+        deleteBtn.addEventListener('focusout', startDecay);
+
+        deleteBtn.addEventListener('click', activate);
+    }
 </script>
 
 {% endblock %}
