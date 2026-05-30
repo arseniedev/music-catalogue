@@ -1,4 +1,4 @@
-b# ♯ Music Catalogue
+# ♯ Music Catalogue
 
 ![Python](https://img.shields.io/badge/Python-%23007ACC.svg?style=for-the-badge&logo=python&logoColor=white)
 ![Django](https://img.shields.io/badge/Django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white)
@@ -77,14 +77,70 @@ b# ♯ Music Catalogue
 [See Wiki](https://github.com/arseniedev/music-catalogue/wiki) ⊿
 
 
-
-## 🔮 Future Improvements
-
-- Search and filter by genre, artist, or year
-- User accounts with personalised playlists
-- Album cover image uploads
-- REST API endpoint for external integrations
-- Spotify / MusicBrainz metadata auto-fill
+## Demo
+<details open>
+  <summary></summary>
+<table>
+  <tr align="center">
+    <td>Homepage</td>
+    <td>Albums</td>
+    <td>Artists</td>
+  </tr>
+  <tr align="center">
+    <td><img src="https://github.com/arseniedev/music-catalogue/blob/docs/docs/snapshots/iteration-2/01-home.png" alt="Home page" width="420"/></td>
+    <td><img src="https://github.com/arseniedev/music-catalogue/blob/docs/docs/snapshots/iteration-2/02-albums.png" alt="Albums page" width="420"/></td>
+    <td><img src="https://github.com/arseniedev/music-catalogue/blob/docs/docs/snapshots/iteration-2/03-artists.png" alt="Artists page" width="420"/></td>
+  </tr>
+  <tr>
+  <tr align="center">
+    <td>Admin Sign In</td>
+    <td>Add Album</td>
+    <td>Add Artist</td>
+  </tr>
+  <tr align="center">
+    <td>
+      <img src="https://github.com/arseniedev/music-catalogue/blob/docs/docs/snapshots/iteration-2/04-admin.png" alt="Admin Page" width="420"/>
+    </td>
+    <td>
+      <img src="https://github.com/arseniedev/music-catalogue/blob/docs/docs/snapshots/iteration-2/05-add-artist.png" alt="Add Artist Details" width="420"/>
+    </td>
+    <td>
+      <img src="https://github.com/arseniedev/music-catalogue/blob/docs/docs/snapshots/iteration-2/06-add-album.png" alt="Add Album Details" width="420"/>
+    </td>
+  </tr>
+  <tr align="center">
+    <td>View Artist</td>
+    <td>Edit Album</td>
+    <td>View Album</td>
+  </tr>
+  <tr align="center">
+    <td>
+      <img src="https://github.com/arseniedev/music-catalogue/blob/docs/docs/snapshots/iteration-2/07-view-artist-details.png" alt="View Artist Details" width="420"/>
+    </td>
+    <td>
+      <img src="https://github.com/arseniedev/music-catalogue/blob/docs/docs/snapshots/iteration-2/08-edit-album.png" alt="Edit Album" width="420"/>
+    </td>
+    <td>
+      <img src="https://github.com/arseniedev/music-catalogue/blob/docs/docs/snapshots/iteration-2/09-view-album-details.png" alt="View Album Details" width="420"/>
+    </td>
+  </tr>
+  <tr align="center">
+    <td>Delete Album</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
+  <tr align="center">
+    <td>
+      <img src="https://github.com/arseniedev/music-catalogue/blob/docs/docs/snapshots/iteration-2/10-delete-album.png" alt="Delete Album" width="420"/>
+    </td>
+    <td>
+      <img src="https://github.com/arseniedev/music-catalogue/blob/docs/docs/snapshots/iteration-2/edit-album.png" alt="Empty" width="420"/>
+    </td>
+    <td>
+      <img src="https://github.com/arseniedev/music-catalogue/blob/docs/docs/snapshots/iteration-2/edit-artist.png" alt="Empty" width="420"/>
+    </td>
+  </tr>
+</table>
 
 </br>
 
