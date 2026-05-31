@@ -12,7 +12,7 @@
 🔗 **Live Demo:** https://youtu.be/TuRtaHknz90
 &nbsp;·&nbsp;
 </br>
-📖 **[Wiki — Full Local Setup Documentation](https://github.com/arseniedev/music-catalogue/wiki)**
+📖 **[Wiki — Full Local Setup Guide](https://github.com/arseniedev/music-catalogue/wiki/Local-Installation-Guide)** ⊿
 
 ---
 
@@ -73,10 +73,6 @@
 <!-- END_STRUCTURE -->
 ---
 
-## Local Setup 
-[See Wiki](https://github.com/arseniedev/music-catalogue/wiki) ⊿
-
-
 ## Demo
 <details open>
   <summary></summary>
@@ -134,10 +130,10 @@
       <img src="https://github.com/arseniedev/music-catalogue/blob/docs/docs/snapshots/iteration-2/10-delete-album.png" alt="Delete Album" width="420"/>
     </td>
     <td>
-      <img src="https://github.com/arseniedev/music-catalogue/blob/docs/docs/snapshots/iteration-2/edit-album.png" alt="Empty" width="420"/>
+      <img src="" alt="-" width="420"/>
     </td>
     <td>
-      <img src="https://github.com/arseniedev/music-catalogue/blob/docs/docs/snapshots/iteration-2/edit-artist.png" alt="Empty" width="420"/>
+      <img src="" alt="-" width="420"/>
     </td>
   </tr>
 </table>
